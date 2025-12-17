@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>My Portfolio</title>
+    <link rel="stylesheet" href="normalize.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearstack</title>
 </head>
 <body>
     <header>
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
+        <nav class="navbar">
+            <li><a href="#home" class="nav__logo"><img src="logo.svg" alt=""></a></li>
+            <ul class="nav__list">
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+        <h1 class="title">Clearstack</h1>
     </header>
 
     <main>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>This is where I'll introduce myself.</p>
+        <section id="home" class="home">
+            <div class="home__container">            
+                <h1 class="home__title">We build modern websites</h1>
+                <h1 class="home__dynamic__title">that <span id="home__dynamic__text"></span><span id="cursor">|</span></h1>
+                <p class="home__description">Fast, clean and responsive web solutions.</p>
+                <div class="home__buttons">
+                    <a href="#projects">View Projects</a>
+                    <a href="#contact">Contact Us</a>
+                </div>
+            </div>
+            <img class="home__image" src="https://media.ambito.com/p/f41e99bcbaa9c1efdf3dcf0bab43aa69/adjuntos/239/imagenes/039/076/0039076448/software-programacionjpg.jpg" alt="">
+        </section>
+        <section id="about" class="about-container">
+                    <h2>About Us</h2>
+                    <p>We are a small team of two developers focused on building clean and effective web experiences. We work fast, communicate clearly and deliver what we promise.</p>
         </section>
 
         <section id="projects">
@@ -30,8 +46,13 @@
         </section>
 
         <section id="contact">
-            <h2>Contact Me</h2>
-            <p>Feel free to reach out!</p>
+            <h2>Contact Us</h2>
+            <form action="" id="form" class="contact-container">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="subject" name="name" placeholder="Subject" required>
+                <textarea id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
+                <button type="submit">Send</button>
+            </form>
         </section>
     </main>
 

@@ -1,3 +1,338 @@
-.copyright-footer{
+:root{
+    --title-font: 'Noto Sans', sans-serif;
+    --text-font: -apple-system, sans-serif;
+}
+body{
+    background-color: #1E1E1E;
+    padding-top: 80px;
+}
+body::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+    display: none;
+}
+
+header{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 1px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+span, p, a, li, label{
+    font-family: var(--text-font);
+    color: #FFFFFF;
+}
+
+button{
+    font-family: var(--text-font);
+    text-decoration: none;
+    padding: 10px 30px;
+    text-align: center;
+    border: 2px solid #FF5733;
+    border-radius: 25px;
+    background-color: transparent;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+button:hover{
+    background-color: #FF5733;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+}
+
+input::placeholder, textarea::placeholder{
+    color: #FFFFFF;
+    opacity: 0.5;
+    font-family: var(--text-font);
+    font-style: italic;
+    text-align: center;
+}
+
+input:hover, textarea:hover{
+    outline: 2px solid #FF5733;
+    border: none;
+    opacity: 0.75;
+}
+
+input:focus, textarea:focus{
+    border: 2px solid #FF5733;
+    outline: none;
+    opacity: 1;
+}
+
+input, textarea{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 50%;
+    margin: 0 auto;
+    background-color: transparent;
+    opacity: 0.4;
+    border: none;
+    outline: 2px solid #060606;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    color: #FFFFFF;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: var(--title-font);
+    color: #FFFFFF;
+}
+
+.title{
+    position: absolute;
+    top: 70px;
+    font-weight: 900;
+    font-size: 50px;
+    letter-spacing: 1.5px;
+    color: transparent;
+    -webkit-text-stroke: 1px #FFFFFF;
+    transition: all 0.3s ease;
+    cursor: default;
+    
+}
+
+.title:hover{
+    color: #FFFFFF;
+    -webkit-text-stroke: -1px;
+}
+
+/* Navbar */
+
+.navbar{
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    width: fit-content;
+    background-color: rgba(44, 44, 44, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    margin: 10px auto;
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.nav__logo img{
+    width: 40px;
+    height: 40px;
+    transition: all 0.15s ease;
+}
+
+.nav__logo img:hover{
+    width: 45px;
+    height: 45px;
+}
+
+.nav__list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav__list li a{
+    text-decoration: none;
+    color: #FFFFFF;
     font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav__list li a:hover{
+    color: #FF5733;
+}
+
+/* Home */
+
+.home{
+    display: flex;
+    align-items: center;
+    height: 100vh
+}
+.home__container{
+    flex-direction: column;
+    justify-items: center;
+    padding: 20px 50px;
+    width: 50%;
+}
+.home__title, .home__dynamic__title{
+    font-size: 40px;
+    font-weight: bold;
+    margin: 10px 0;
+    font-family: var(--text-font);
+}
+
+#cursor {
+    display: inline-block;
+    margin-left: 5px;
+    animation: blink 0.7s infinite; /* Animación para el parpadeo */
+    margin: 0px;
+}
+
+#cursor[not-animated] {
+    animation: none;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.home__description{
+    font-size: 30px;
+    margin: 10px 0;
+    font-family: var(--text-font);
+}
+
+.home__buttons{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.home__buttons > a{
+    text-decoration: none;
+    padding: 10px 20px;
+    text-align: center;
+    border: 2px solid #FF5733;
+    border-radius: 25px;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.home__buttons > a:hover{
+    background-color: #FF5733;
+    color: #FFFFFF;
+}
+
+.home__image{
+    width: 50%;
+    height: 100%;
+}
+
+/* About us */
+.about-container{
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 75px;
+    width: 80%;
+    margin: 0 auto;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 30px;
+}
+
+.about-container h2{
+    font-size: 36px;
+    font-weight: bold;
+    justify-content: center;
+    color: #000000;
+    margin: 10px 0;
+}
+
+.about-container p{
+    font-size: 20px;
+    color: #000000;
+    text-align: center;
+}
+
+/* Contact */
+
+.contact-container{
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.contact-container textarea{
+    resize: none;
+}
+
+.contact-container textarea::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+    display: none;
+}
+
+.contact-container > button{
+    width: fit-content;
+    margin: 0 auto;
+}
+
+/* Footer */
+
+#copyright-footer{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+footer{
+    background-color: #000000;
+    border-radius: 15px 15px 0 0;
+}
+
+@media screen and (max-width: 745px) {
+    .home{
+        position: relative;
+        height: 100vh;
+        justify-content: center;
+    }
+    .home__container{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        width: fit-content;
+    }
+    .home__title, .home__dynamic__title, .home__description{
+        text-align: center;
+    }
+    
+    .home__image{
+        position: absolute;
+        width: 100%;
+        z-index: -10;
+        filter: blur(0);
+        opacity: .6;
+    }
+    .home__buttons {
+        width: min-content;
+    }
+
+    .contact-container{
+        margin: 0;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .contact-container input{
+        width: 70%;
+    }
+    .contact-container  button{
+        width: 60%;
+    }
+    .contact-container textarea{
+        width: 90%;
+    }
 }
