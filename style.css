@@ -4,7 +4,6 @@
 }
 body{
     background-color: #1E1E1E;
-    padding-top: 80px;
 }
 body::-webkit-scrollbar{
     width: 0px;
@@ -14,14 +13,13 @@ body::-webkit-scrollbar{
 
 header{
     display: flex;
-    position: absolute;
     justify-content: center;
     align-items: center;
     top: 0;
     bottom: 1px;
     left: 0;
     right: 0;
-    margin: auto;
+    margin: 0 auto;
 }
 
 span, p, a, li, label{
@@ -88,16 +86,14 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .title{
-    position: absolute;
-    top: 70px;
     font-weight: 900;
-    font-size: 50px;
+    font-size: 125px;
     letter-spacing: 1.5px;
     color: transparent;
     -webkit-text-stroke: 1px #FFFFFF;
     transition: all 0.3s ease;
     cursor: default;
-    
+    margin: 0;
 }
 
 .title:hover{
@@ -227,6 +223,7 @@ h1, h2, h3, h4, h5, h6{
 
 /* About us */
 .about-container{
+    position: sticky;
     flex-direction: column;
     gap: 20px;
     padding: 0 75px;
@@ -242,7 +239,7 @@ h1, h2, h3, h4, h5, h6{
     font-weight: bold;
     justify-content: center;
     color: #000000;
-    margin: 10px 0;
+    margin: 0;
 }
 
 .about-container p{
