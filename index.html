@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
+    <link href="https://bartbeyond.art/wp-content/uploads/sfizia.woff2" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="normalize.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clearstack</title>
 </head>
 <body>
@@ -34,17 +35,20 @@
             </div>
             <img class="home__image" src="https://media.ambito.com/p/f41e99bcbaa9c1efdf3dcf0bab43aa69/adjuntos/239/imagenes/039/076/0039076448/software-programacionjpg.jpg" alt="">
         </section>
-        <section id="about" class="about-container">
-                    <h2>About Us</h2>
-                    <p>We are a small team of two developers focused on building clean and effective web experiences. We work fast, communicate clearly and deliver what we promise.</p>
+        <h2 id="about-title">About Us</h2>
+        <section id="about">
+            <img id="about-img" src="https://media.istockphoto.com/id/1491196684/photo/business-people-celebrating-success-in-an-office.jpg?s=612x612&w=0&k=20&c=zQ5Ps5nQWi3S2futnwyOoqLMFxPzE8B04WltyPB6RyI=" alt="" class="about-decorative">
+            <div id="about-container" class="about-container">
+                <p id="about-text">We're a two-person web studio building clean, fast and modern websites for businesses that want to look serious online.<br>We focus on clarity, performance and results — no overengineering, no wasted time.<br>Small team, direct communication, solid execution.</p>
+            </div>
         </section>
-
+        <h2 id="about-text-2">We build what your project actually needs, and we build it right.</h2>
         <section id="projects">
             <h2>My Projects</h2>
             <p>Here are some of my works.</p>
         </section>
 
-        <section id="contact">
+        <section id="contact" class="contact">
             <h2>Contact Us</h2>
             <form action="" id="form" class="contact-container">
                 <input type="email" id="email" name="email" placeholder="Email" required>
@@ -58,6 +62,8 @@
     <footer>
         <span id="copyright-footer"></span>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js" defer></script>
 </body>
 </html>

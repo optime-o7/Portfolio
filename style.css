@@ -1,6 +1,7 @@
 :root{
     --title-font: 'Noto Sans', sans-serif;
     --text-font: -apple-system, sans-serif;
+    --cursive-font: 'Sfizia';
 }
 body{
     background-color: #1E1E1E;
@@ -86,8 +87,10 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .title{
+    position: relative;
     font-weight: 900;
     font-size: 125px;
+    z-index: 100;
     letter-spacing: 1.5px;
     color: transparent;
     -webkit-text-stroke: 1px #FFFFFF;
@@ -157,7 +160,8 @@ h1, h2, h3, h4, h5, h6{
 .home{
     display: flex;
     align-items: center;
-    height: 100vh
+    height: 100vh;
+    overflow: hidden;
 }
 .home__container{
     flex-direction: column;
@@ -217,45 +221,93 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .home__image{
-    width: 50%;
-    height: 100%;
-}
-
-/* About us */
-.about-container{
-    position: sticky;
-    flex-direction: column;
-    gap: 20px;
-    padding: 0 75px;
-    width: 80%;
-    margin: 0 auto;
-    align-items: center;
-    background-color: #FFFFFF;
+    width: 40%;
+    height: 80%;
     border-radius: 30px;
 }
 
-.about-container h2{
-    font-size: 36px;
-    font-weight: bold;
-    justify-content: center;
-    color: #000000;
-    margin: 0;
+/* About us */
+
+#about{
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    opacity: 1;
+    transform: translateX(-50px); /* No la mandes al -100%, con un toque basta */
+    transition: none; /* La transición la manejamos por JS */
+    min-height: 100vh; /* Asegurate de que tenga altura para que el observer la vea */
+}
+
+.about-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 50px;
+    width: calc(50% - 50px);
+    height: fit-content;
+    margin: 0, auto;
+    border-radius: 30px;
+}
+
+#about-title{
+    font-size: 70px;
+    font-family: var(--cursive-font);
+    margin: 0 auto;
+    width: fit-content;
+    -webkit-text-stroke: 1px #FFFFFF;
+    color: #FFFFFF;
+    transition: all 0.3s ease;
+    cursor: default;
+    opacity: 0;
+}
+
+#about-title:hover{
+    color: transparent;
 }
 
 .about-container p{
-    font-size: 20px;
-    color: #000000;
-    text-align: center;
+    font-size: 50px;
+    color: #FFFFFF;
+}
+
+.about-container p .word{
+    display: inline-block;
+    opacity: 0;
+    color: #FFFFFF;
+    transition: all 0.15s ease, color 0.1s ease;
+    -webkit-text-stroke-width: 0.3px;
+    -webkit-text-stroke-color: transparent;
+}
+
+.about-container p .word:hover{
+    color: transparent;
+    -webkit-text-stroke-color: #FFFFFF;
+}
+
+#about-img{
+    position: relative;
+    width: 50%;
+    height: 500px;
+    border-radius: 15px;
+    opacity: 0;
 }
 
 /* Contact */
 
+.contact{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .contact-container{
+    display: flex;
     flex-direction: column;
     gap: 10px;
     width: 50%;
-    margin: 0 auto;
     align-items: center;
+    justify-content: center;
 }
 
 .contact-container textarea{
@@ -289,6 +341,11 @@ footer{
 }
 
 @media screen and (max-width: 745px) {
+    .title{
+        width: 100%;
+        font-size: 70px;
+        text-align: center;
+    }
     .home{
         position: relative;
         height: 100vh;
@@ -331,5 +388,16 @@ footer{
     }
     .contact-container textarea{
         width: 90%;
+    }
+}
+
+@keyframes show{
+    from{
+        opacity: 0;
+        scale: 25%;
+    }
+    to{
+        opacity: 1;
+        scale: 100%;
     }
 }
