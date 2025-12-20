@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://bartbeyond.art/wp-content/uploads/sfizia.woff2" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Dancing+Script:wght@400..700&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="normalize.css">
+    <link rel="icon" href="/logo.svg" type="image/x-icon">
     <title>Clearstack</title>
 </head>
 <body>
@@ -27,35 +30,92 @@
                 <h1 class="title">Clearstack</h1>
                 <h1 class="home__title">We build modern websites</h1>
                 <h1 class="home__dynamic__title">that <span id="home__dynamic__text"></span><span id="cursor">|</span></h1>
+            <div class="home__lowerbunk">
                 <p class="home__description">Fast, clean and responsive web solutions.</p>
                 <div class="home__buttons">
                     <a href="#projects">View Projects</a>
                     <a href="#contact">Contact Us</a>
                 </div>
             </div>
+            </div>
             <img class="home__image" src="https://media.ambito.com/p/f41e99bcbaa9c1efdf3dcf0bab43aa69/adjuntos/239/imagenes/039/076/0039076448/software-programacionjpg.jpg" alt="">
         </section>
-        <h2 id="about-title">About Us</h2>
-        <section id="about">
-            <img id="about-img" src="https://media.istockphoto.com/id/1491196684/photo/business-people-celebrating-success-in-an-office.jpg?s=612x612&w=0&k=20&c=zQ5Ps5nQWi3S2futnwyOoqLMFxPzE8B04WltyPB6RyI=" alt="" class="about-decorative">
-            <div id="about-container" class="about-container">
-                <p id="about-text">We're a two-person web studio building clean, fast and modern websites for businesses that want to look serious online.<br>We focus on clarity, performance and results — no overengineering, no wasted time.<br>Small team, direct communication, solid execution.</p>
+        <h2 id="about-title" class="about__title">About Us</h2>
+        <section id="about" class="about">
+            <div id="about-content">
+                <img id="about-img" class="about__img" src="https://media.istockphoto.com/id/1491196684/photo/business-people-celebrating-success-in-an-office.jpg?s=612x612&w=0&k=20&c=zQ5Ps5nQWi3S2futnwyOoqLMFxPzE8B04WltyPB6RyI=" alt="" class="about-decorative">
+                <div id="about-container" class="about__container">
+                    <p id="about-text">We're a two-person web studio building clean, fast and modern websites for businesses that want to look serious online.<br />We focus on clarity, performance and results — no overengineering, no wasted time.<br>Small team, direct communication, solid execution.</p>
+                </div>
             </div>
         </section>
-        <h2 id="about-text-2">We build what your project actually needs, and we build it right.</h2>
+        <div id="about-text-2-container">
+            <h2 id="about-text-2" class="about__text--2">We build what your project actually needs, and we build it right.</h2>
+        </div>
         <section id="projects">
-            <h2>My Projects</h2>
-            <p>Here are some of my works.</p>
+            <h2>Example of projects</h2>
+            <p>Here are some of our works.</p>
+            <div class="projects_container">
+                <div class="project_content_space">
+                    <div class="project_content">
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+    
+                        <div class="project_description">
+                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project_content_space">
+                    <div class="project_content">
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+    
+                        <div class="project_description">
+                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project_content_space">
+                    <div class="project_content">
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+    
+                        <div class="project_description">
+                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>Lightweight CRM for small teams with contact and task management.</p>
+
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Javascript</li>
+            </ul>
+
+            <div>
+                <a href="">Live</a>
+                <a href="">Code</a>
+            </div>
         </section>
 
         <section id="contact" class="contact">
             <h2>Contact Us</h2>
-            <form action="" id="form" class="contact-container">
-                <input type="email" id="email" name="email" placeholder="Email" required>
-                <input type="text" id="subject" name="name" placeholder="Subject" required>
-                <textarea id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
-                <button type="submit">Send</button>
-            </form>
+            <div class="contact__container">
+                <form action="https://formspree.io/f/xnjajgvb" method="POST" id="form" class="contact__form">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+                <img src="mail.png" alt="" srcset="">
+            </div>
+            
         </section>
     </main>
 
@@ -65,5 +125,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js" defer></script>
+    <div id="prefabs" style="display: none;" aria-hidden="true">
+        <span class="word-style"></span>
+        <span class="word-style" underline="true"></span>
+        <span class="word-style" highlight="true"></span>
+        <span class="word-style" clear="true"></span>
+    </div>
 </body>
 </html>

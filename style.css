@@ -2,6 +2,7 @@
     --title-font: 'Noto Sans', sans-serif;
     --text-font: -apple-system, sans-serif;
     --cursive-font: 'Sfizia';
+    --styled-font: 'Host Grotesk', sans-serif;
 }
 body{
     background-color: #1E1E1E;
@@ -86,53 +87,34 @@ h1, h2, h3, h4, h5, h6{
     color: #FFFFFF;
 }
 
-.title{
-    position: relative;
-    font-weight: 900;
-    font-size: 125px;
-    z-index: 100;
-    letter-spacing: 1.5px;
-    color: transparent;
-    -webkit-text-stroke: 1px #FFFFFF;
-    transition: all 0.3s ease;
-    cursor: default;
-    margin: 0;
-}
-
-.title:hover{
-    color: #FFFFFF;
-    -webkit-text-stroke: -1px;
-}
-
 /* Navbar */
 
 .navbar{
     display: flex;
-    padding: 10px 20px;
+    padding: 0.5cqi 2cqi;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
     list-style: none;
     width: fit-content;
     background-color: rgba(44, 44, 44, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 50px;
-    margin: 10px auto;
+    backdrop-filter: blur(5em);
+    border-radius: 5rem;
+    margin: 0.5cqi auto;
     position: fixed;
-    top: 0px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
 }
 
 .nav__logo img{
-    width: 40px;
-    height: 40px;
+    width: 3cqi;
+    height: 3cqi;
     transition: all 0.15s ease;
 }
 
 .nav__logo img:hover{
-    width: 45px;
-    height: 45px;
+    transform: scale(1.1);
 }
 
 .nav__list{
@@ -140,7 +122,8 @@ h1, h2, h3, h4, h5, h6{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    padding-left: 1.5cqi;
+    gap: 1.5cqi;
     list-style: none;
 }
 
@@ -148,6 +131,7 @@ h1, h2, h3, h4, h5, h6{
     text-decoration: none;
     color: #FFFFFF;
     font-weight: bold;
+    font-size: 1.2cqi;
     transition: color 0.3s ease;
 }
 
@@ -157,23 +141,42 @@ h1, h2, h3, h4, h5, h6{
 
 /* Home */
 
+.title{
+    position: relative;
+    font-weight: bolder;
+    font-size: 8.5cqi;
+    letter-spacing: 0.1cqi;
+    color: transparent;
+    -webkit-text-stroke: 0.05rem #FFFFFF;
+    cursor: default;
+    transition: all 0.3s ease;
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0.5cqi;
+}
+
+.title:hover{
+    color: #FFFFFF;
+    -webkit-text-stroke: -1px;
+}
+
 .home{
     display: flex;
     align-items: center;
-    height: 100vh;
     overflow: hidden;
+    height: 100vh;
 }
 .home__container{
     flex-direction: column;
     justify-items: center;
-    padding: 20px 50px;
+    padding: 0 4vw;
     width: 50%;
 }
 .home__title, .home__dynamic__title{
-    font-size: 40px;
+    font-size: 2.5cqi;
     font-weight: bold;
-    margin: 10px 0;
-    font-family: var(--text-font);
+    margin: 0 auto;
+    font-family: var(--styled-font);
 }
 
 #cursor {
@@ -192,25 +195,31 @@ h1, h2, h3, h4, h5, h6{
     50% { opacity: 0; }
 }
 
+.home__lowerbunk{
+    margin-top: 1cqi;
+    position: relative;
+    align-items: center;
+    justify-items: center;
+}
+
 .home__description{
-    font-size: 30px;
-    margin: 10px 0;
+    font-size: 1.75cqi;
     font-family: var(--text-font);
 }
 
 .home__buttons{
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
-    gap: 10px;
+    gap: 0.75cqi;
 }
 
 .home__buttons > a{
     text-decoration: none;
-    padding: 10px 20px;
+    font-family: var(--styled-font);
+    padding: 1.75vh 1.5vw;
     text-align: center;
-    border: 2px solid #FF5733;
-    border-radius: 25px;
+    border: 0.15rem solid #FF5733;
+    border-radius: 1.5rem;
     background-color: transparent;
     transition: all 0.3s ease-in-out;
 }
@@ -221,8 +230,8 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .home__image{
-    width: 40%;
-    height: 80%;
+    width: 40vw;
+    height: 90%;
     border-radius: 30px;
 }
 
@@ -230,29 +239,50 @@ h1, h2, h3, h4, h5, h6{
 
 #about{
     display: flex;
-    justify-content: right;
-    align-items: right;
-    opacity: 1;
-    transform: translateX(-50px); /* No la mandes al -100%, con un toque basta */
-    transition: none; /* La transición la manejamos por JS */
-    min-height: 100vh; /* Asegurate de que tenga altura para que el observer la vea */
+    flex-direction: column;
+    margin-bottom: 10vh;
 }
 
-.about-container{
+#about-content{
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    max-height: 100vh;
+    size: 50%;
+}
+
+.about__container{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 30px 50px;
-    width: calc(50% - 50px);
-    height: fit-content;
-    margin: 0, auto;
+    padding: 0 3.5cqi;
+    width: 30vw;
+    margin: 0 auto;
+    height: 120vh;
     border-radius: 30px;
+    background-color: transparent;
+}
+
+#about-img{
+    position: relative;
+    width: 65vw;
+    height: 100vh;
+    border-radius: 15px;
+    margin: 0 auto;
+    opacity: 0;
+    overflow: hidden;
+
+    /* Tu configuración de fondo */
+    background-image: linear-gradient(#FF5733, #FF5733);
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: 0% 100px;
+    transition: background-size 0.5s ease;
 }
 
 #about-title{
-    font-size: 70px;
-    font-family: var(--cursive-font);
+    font-size: 5vi;
     margin: 0 auto;
+    margin-bottom: 5vh;
     width: fit-content;
     -webkit-text-stroke: 1px #FFFFFF;
     color: #FFFFFF;
@@ -265,64 +295,256 @@ h1, h2, h3, h4, h5, h6{
     color: transparent;
 }
 
-.about-container p{
-    font-size: 50px;
+.about__container p, .about__container span{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
     color: #FFFFFF;
 }
 
-.about-container p .word{
+p .word{
     display: inline-block;
     opacity: 0;
-    color: #FFFFFF;
-    transition: all 0.15s ease, color 0.1s ease;
-    -webkit-text-stroke-width: 0.3px;
-    -webkit-text-stroke-color: transparent;
-}
-
-.about-container p .word:hover{
+    margin-right: 0.25em;
     color: transparent;
-    -webkit-text-stroke-color: #FFFFFF;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    font-size: 2.75cqi;
+    transition: color 0.3s ease;
+    cursor: default;
 }
 
-#about-img{
-    position: relative;
-    width: 50%;
-    height: 500px;
-    border-radius: 15px;
-    opacity: 0;
+.word-style{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 1;
+    color: #ffffff;
+    -webkit-text-stroke-color: white;
+    -webkit-text-stroke-width: 0.015rem;
+    transition: all 0.15s ease, color 0.1s ease;
+}
+
+p .word[alreadyAnimated]{
+    color: white;
+}
+
+p .word[clear]{
+    /* Color de base transparente para que se vea el fondo */
+    color: transparent;
+}
+p .word[clear][alreadyAnimated]{/* Color de base transparente para que se vea el fondo */
+    --x: 50%; /* Posición inicial del brillo */
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    
+    /* Gradiente tipo 'radial' para que parezca un foco de luz */
+    background: radial-gradient(
+        circle at var(--x) 10%, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0.2) 30%, 
+        transparent 100%
+    );
+    
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Borde de la letra para que se note el relieve */
+    -webkit-text-stroke: 0.02rem rgba(255, 255, 255, 0.3);
+}
+
+p .word[clear][alreadyAnimated]:hover{
+    /* Color de base transparente para que se vea el fondo */
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.about__container p .word[underline]{/* Creamos la barrita con un gradiente */
+    background-image: linear-gradient(#FF5733, #FF5733);
+    background-position: 0 100%; /* Abajo a la izquierda */
+    background-repeat: no-repeat;
+    background-size: 0% 0.05em; /* Arranca con 0% de ancho */
+    transition: background-size 0.5s ease; /* Para que sea suave */
+}
+
+.about__container p .word[underline][alreadyAnimated]{
+    background-size: 100% 0.05em; /* Se expande al 100% */
+}
+
+p .word[highlight]{
+    -webkit-text-stroke-color: #FF5733;
+}
+
+p .word[highlight]:hover{
+    color: transparent;
+}
+p .word[highlight][alreadyAnimated]{
+    color: #FF5733;
+}
+
+.about__container p .word:hover{
+    color: transparent;
+}
+
+#about-text{
+    margin: 0 auto;
+}
+
+#about-text-2-container{
+    width: 100%; /* Ajustalo a lo que necesites */
+    margin: 0 auto;
+    text-align: center;
+}
+#about-text-2 .word2, #about-text-2 .word-highlighted{
+    font-size: 3rem;
+    -webkit-text-stroke: 0.1rem white;
+    display: inline-block;
+}
+
+#about-text-2 .word2:hover{
+    color: transparent;
+    transition: all 0.3s ease;
+}
+
+#about-text-2 .word-highlighted{
+    color: transparent;
+    -webkit-text-stroke: 1px #FF5733;
+    transition: all 0.3s ease;
+}
+
+#about-text-2 .word-highlighted:hover{
+    /* make the font undercase */
+    color: #FF5733;
+}
+
+/* Projects */
+
+.projects_container{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.project_icon{
+    display: flex;
+    margin-top: 3vh;
+    width: 10vw;
+    height: 10vh;
+    opacity: 0.7;
+}
+
+.project_content_space{
+    display: grid;
+    place-items: center; /* ¡Magia! Centra todo en un solo paso */
+    width: 60vh;
+    height: 35vh;
+    margin: auto 1vw;
+    perspective: 50vi; /* Clave: da la sensación de profundidad 3D */
+}
+
+.project_content{
+    background-color: rgba(44, 44, 44, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 3rem;
+    width: 100%;
+    height: 100%;
+    justify-items: center;
+    text-align: center;
+    transform-style: preserve-3d; /* Permite que los hijos tmb sean 3D */
+    will-change: transform;
+}
+
+.project_content a{
+    font-family: var(--title-font);
+    font-size: 5cqb;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-top: 2.5cqb;
+}
+
+.project_content a:hover{
+    transform: scale(1.2);
+    color: rgb(47, 47, 169);
+}
+
+.project_content a:active{
+    transform: scale(1.1);
+    color: transparent;
+    -webkit-text-stroke-color: rgb(47, 47, 169);
+    -webkit-text-stroke-width: 0.03rem;
+    transition: all 0.2s ease;
+}
+
+.project_description{
+    position: absolute;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    bottom: 5vh;
+}
+
+.project_content p{
+    font-family: var(--styled-font);
+    font-weight: lighter;
+    font-size: 1.3cqi;
+    margin: auto 2vh;
 }
 
 /* Contact */
 
 .contact{
     display: flex;
+
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.contact-container{
+.contact__container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(24, 24, 24);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    width: 90%;
+    height: 300px;
+}
+
+.contact__form{
     display: flex;
     flex-direction: column;
-    gap: 10px;
     width: 50%;
+    height: 90%;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+}
+/*
+.contact__form label{
+
+}*/
+
+.contact__form input{
+    padding: 3px;
+    width: 80%;
 }
 
-.contact-container textarea{
+.contact__form button{
+    width: 75%;
+}
+
+.contact__form textarea{
+    width: 90%;
+    height: 120px;
     resize: none;
 }
 
-.contact-container textarea::-webkit-scrollbar{
+.contact__form textarea::-webkit-scrollbar{
     width: 0px;
     height: 0px;
     display: none;
-}
-
-.contact-container > button{
-    width: fit-content;
-    margin: 0 auto;
 }
 
 /* Footer */
@@ -373,21 +595,35 @@ footer{
         width: min-content;
     }
 
-    .contact-container{
-        margin: 0;
+    #about{
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%;
     }
 
-    .contact-container input{
+    .about__img{
+        display: none;
+    }
+    .contact__form{
+        margin: 0;
+
+        width: 100%;
+    }
+
+    .contact__form input{
         width: 70%;
     }
-    .contact-container  button{
+    .contact__form  button{
         width: 60%;
     }
-    .contact-container textarea{
+    .contact__form textarea{
         width: 90%;
+    }
+
+    .pin-spacer{
+        width: 100%;
     }
 }
 
