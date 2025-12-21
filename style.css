@@ -96,8 +96,9 @@ h1, h2, h3, h4, h5, h6{
     justify-items: center;
     list-style: none;
     width: fit-content;
-    background-color: rgba(44, 44, 44, 0.8);
-    backdrop-filter: blur(5em);
+    background-color: rgba(44, 44, 44, 0.5);
+    -webkit-backdrop-filter: blur(40px) saturate(100%);
+    backdrop-filter: blur(40px) saturate(100%);
     border-radius: 5rem;
     margin: 0.5cqi auto;
     position: fixed;
@@ -254,7 +255,8 @@ h1, h2, h3, h4, h5, h6{
 .about__container{
     display: flex;
     flex-direction: column;
-    padding: 0 3.5cqi;
+    padding-left: 3.5cqi;
+    padding-right: 0;
     width: 30vw;
     margin: 0 auto;
     height: 120vh;
@@ -295,127 +297,69 @@ h1, h2, h3, h4, h5, h6{
     color: transparent;
 }
 
-.about__container p, .about__container span{
+.about__text{
     font-size: 2.75cqi;
-    font-family: var(--styled-font);
-    color: #FFFFFF;
+    opacity: 1;
 }
 
-p .word{
+.about__text .word{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
     margin-right: 0.25em;
     color: transparent;
     -webkit-text-stroke-color: #ffffff;
     -webkit-text-stroke-width: 0.025rem;
-    font-size: 2.75cqi;
-    transition: color 0.3s ease;
+    transition: background-size 0.5s ease, color 0.3s ease;
     cursor: default;
 }
 
-.word-style{
+#about-text-2-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.about__text--2{
+    font-size: 2.75cqi;
+    opacity: 1;
+}
+
+.about__text--2 .word{
+    margin-right: 0.25em;
+    opacity: 0;
+    color: transparent;
     font-size: 2.75cqi;
     font-family: var(--styled-font);
     display: inline-block;
-    opacity: 1;
-    color: #ffffff;
-    -webkit-text-stroke-color: white;
-    -webkit-text-stroke-width: 0.015rem;
-    transition: all 0.15s ease, color 0.1s ease;
-}
-
-p .word[alreadyAnimated]{
-    color: white;
-}
-
-p .word[clear]{
-    /* Color de base transparente para que se vea el fondo */
-    color: transparent;
-}
-p .word[clear][alreadyAnimated]{/* Color de base transparente para que se vea el fondo */
-    --x: 50%; /* Posición inicial del brillo */
-    color: rgba(255, 255, 255, 0.2);
-    font-weight: bold;
-    
-    /* Gradiente tipo 'radial' para que parezca un foco de luz */
-    background: radial-gradient(
-        circle at var(--x) 10%, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(255, 255, 255, 0.2) 30%, 
-        transparent 100%
-    );
-    
-    -webkit-background-clip: text;
-    background-clip: text;
-    
-    /* Borde de la letra para que se note el relieve */
-    -webkit-text-stroke: 0.02rem rgba(255, 255, 255, 0.3);
-}
-
-p .word[clear][alreadyAnimated]:hover{
-    /* Color de base transparente para que se vea el fondo */
-    color: rgba(255, 255, 255, 0.1);
-}
-
-.about__container p .word[underline]{/* Creamos la barrita con un gradiente */
-    background-image: linear-gradient(#FF5733, #FF5733);
-    background-position: 0 100%; /* Abajo a la izquierda */
-    background-repeat: no-repeat;
-    background-size: 0% 0.05em; /* Arranca con 0% de ancho */
-    transition: background-size 0.5s ease; /* Para que sea suave */
-}
-
-.about__container p .word[underline][alreadyAnimated]{
-    background-size: 100% 0.05em; /* Se expande al 100% */
-}
-
-p .word[highlight]{
-    -webkit-text-stroke-color: #FF5733;
-}
-
-p .word[highlight]:hover{
-    color: transparent;
-}
-p .word[highlight][alreadyAnimated]{
-    color: #FF5733;
-}
-
-.about__container p .word:hover{
-    color: transparent;
-}
-
-#about-text{
-    margin: 0 auto;
-}
-
-#about-text-2-container{
-    width: 100%; /* Ajustalo a lo que necesites */
-    margin: 0 auto;
-    text-align: center;
-}
-#about-text-2 .word2, #about-text-2 .word-highlighted{
-    font-size: 3rem;
-    -webkit-text-stroke: 0.1rem white;
-    display: inline-block;
-}
-
-#about-text-2 .word2:hover{
-    color: transparent;
-    transition: all 0.3s ease;
-}
-
-#about-text-2 .word-highlighted{
-    color: transparent;
-    -webkit-text-stroke: 1px #FF5733;
-    transition: all 0.3s ease;
-}
-
-#about-text-2 .word-highlighted:hover{
-    /* make the font undercase */
-    color: #FF5733;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0.5s ease, color 0.3s ease;
+    cursor: default;
 }
 
 /* Projects */
+
+#projects-title-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.projects__title{
+    text-align: center;
+    font-size: 2.75cqi;
+    opacity: 0;
+    color: transparent;
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    cursor: default;
+}
 
 .projects_container{
     display: flex;
@@ -443,14 +387,17 @@ p .word[highlight][alreadyAnimated]{
 
 .project_content{
     background-color: rgba(44, 44, 44, 0.8);
-    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(40px) saturate(100%);
+    backdrop-filter: blur(40px) saturate(100%);
     border-radius: 3rem;
+    opacity: 0;
     width: 100%;
     height: 100%;
     justify-items: center;
     text-align: center;
     transform-style: preserve-3d; /* Permite que los hijos tmb sean 3D */
     will-change: transform;
+    overflow-x: hidden;
 }
 
 .project_content a{
@@ -465,7 +412,7 @@ p .word[highlight][alreadyAnimated]{
 
 .project_content a:hover{
     transform: scale(1.2);
-    color: rgb(47, 47, 169);
+    color: rgb(77, 77, 206);
 }
 
 .project_content a:active{
@@ -489,6 +436,20 @@ p .word[highlight][alreadyAnimated]{
     font-weight: lighter;
     font-size: 1.3cqi;
     margin: auto 2vh;
+}
+
+.knowledge{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.knowledge__container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 /* Contact */
@@ -521,27 +482,36 @@ p .word[highlight][alreadyAnimated]{
     align-items: center;
     justify-content: space-around;
 }
-/*
+
 .contact__form label{
+    width: 0px;
+    height: 0px;
+    display: none;
+}
 
-}*/
-
-.contact__form input{
+.contact_form_text input textarea{
     padding: 3px;
     width: 80%;
+    font-family: var(--styled-font);
+}
+
+.contact_form_text{
+    font-family: var(--styled-font)
+}
+
+.contact_form_text:focus{
+    font-family: var(--styled-font);
 }
 
 .contact__form button{
-    width: 75%;
+    width: 50%;
 }
 
-.contact__form textarea{
-    width: 90%;
-    height: 120px;
+.contact__container textarea{
     resize: none;
 }
 
-.contact__form textarea::-webkit-scrollbar{
+.contact_form_text::-webkit-scrollbar{
     width: 0px;
     height: 0px;
     display: none;
@@ -560,6 +530,63 @@ p .word[highlight][alreadyAnimated]{
 footer{
     background-color: #000000;
     border-radius: 15px 15px 0 0;
+}
+
+/*         WORD-PRESETS            */
+.word[alreadyAnimated]{
+    color: white;
+}
+
+.word[underline]{
+    background-image: linear-gradient(#FF5733, #FF5733);
+    background-position: 0 100%; /* Abajo a la izquierda */
+    background-repeat: no-repeat;
+    background-size: 0% 0.05em; /* Arranca con 0% de ancho */
+}
+
+.word[underline][alreadyAnimated]{
+    background-size: 100% 0.05em;
+}
+
+.word[highlight]{
+    -webkit-text-stroke-color: #FF5733;
+}
+
+.word[highlight][alreadyAnimated]{
+    color: #FF5733;
+}
+
+.word[clear]{
+    color: transparent;
+}
+
+.word[clear][alreadyAnimated]{
+    --x: 50%; /* Posición inicial del brillo */
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    
+    /* Gradiente tipo 'radial' para que parezca un foco de luz */
+    background: radial-gradient(
+        circle at var(--x) 10%, 
+        rgba(255, 255, 255, 0.2) 0%, 
+        rgba(255, 255, 255, 0.2) 30%, 
+        transparent 100%
+    );
+    
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Borde de la letra para que se note el relieve */
+    -webkit-text-stroke: 0.02rem rgba(255, 255, 255, 0.3);
+}
+
+.word[clear][alreadyAnimated]:hover{
+    /* Color de base transparente para que se vea el fondo */
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.word:hover, .word[alreadyAnimated]:hover{
+    color: transparent;
 }
 
 @media screen and (max-width: 745px) {
@@ -624,6 +651,24 @@ footer{
 
     .pin-spacer{
         width: 100%;
+    }
+
+    .knowledge__container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .contact__container img{
+        display: none;
+    }
+
+    .contact__form{
+        gap: 10px;
+    }
+    .contact__form label{
+        display: none;
     }
 }
 

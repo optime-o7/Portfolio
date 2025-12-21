@@ -43,9 +43,9 @@
         <h2 id="about-title" class="about__title">About Us</h2>
         <section id="about" class="about">
             <div id="about-content">
-                <img id="about-img" class="about__img" src="https://media.istockphoto.com/id/1491196684/photo/business-people-celebrating-success-in-an-office.jpg?s=612x612&w=0&k=20&c=zQ5Ps5nQWi3S2futnwyOoqLMFxPzE8B04WltyPB6RyI=" alt="" class="about-decorative">
+                <img id="about-img" class="about__img" src="https://media.istockphoto.com/id/1491196684/photo/business-people-celebrating-success-in-an-office.jpg?s=1024x1024&w=is&k=20&c=34FPFkaM5PpEPebuYI6ctlrvNavH0LOxk_YVM5EgJsI=" alt="" class="about-decorative">
                 <div id="about-container" class="about__container">
-                    <p id="about-text">We're a two-person web studio building clean, fast and modern websites for businesses that want to look serious online.<br />We focus on clarity, performance and results — no overengineering, no wasted time.<br>Small team, direct communication, solid execution.</p>
+                    <p id="about-text" class="about__text">We're a two-person web studio building clean, fast and modern websites for businesses that want to look serious online.<br />We focus on clarity, performance and results — no overengineering, no wasted time.<br>Small team, direct communication, solid execution.</p>
                 </div>
             </div>
         </section>
@@ -53,13 +53,14 @@
             <h2 id="about-text-2" class="about__text--2">We build what your project actually needs, and we build it right.</h2>
         </div>
         <section id="projects">
-            <h2>Example of projects</h2>
-            <p>Here are some of our works.</p>
+            <div id="projects-title-container">
+                <h2 id="projects-title" class="projects__title">Here are some of our most recent work</h2>
+            </div>
             <div class="projects_container">
                 <div class="project_content_space">
                     <div class="project_content">
-                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
-                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg" alt="icon"> 
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
                             <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
@@ -68,8 +69,8 @@
                 </div>
                 <div class="project_content_space">
                     <div class="project_content">
-                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
-                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg" alt="icon"> 
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
                             <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
@@ -78,8 +79,8 @@
                 </div>
                 <div class="project_content_space">
                     <div class="project_content">
-                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg"> 
-                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank">AuroraCRM</a>
+                        <img class="project_icon" src="https://optime-o7.github.io/AuroraCRM/icon.svg" alt="icon">
+                        <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
                             <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
@@ -87,30 +88,40 @@
                     </div>
                 </div>
             </div>
-            <p>Lightweight CRM for small teams with contact and task management.</p>
-
-            <ul>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>Javascript</li>
-            </ul>
-
-            <div>
-                <a href="">Live</a>
-                <a href="">Code</a>
+            <div id="projects-end-text-container">
+                <h2 id="projects-end-text" class="about__text--2">...and more</h2>
             </div>
         </section>
 
+        
+        <section id="knowledge" class="knowledge">
+            <h2>This team specializes on</h2>
+            <div class="knowledge__container">
+                <article class="knowledge__item">
+                    <img src="html.png" alt="">
+                    <h3>HTML</h3>
+                </article>
+                <article class="knowledge__item">
+                    <img src="" alt="">
+                    <h3>CSS</h3>
+                </article>
+                <article class="knowledge__item">
+                    <img src="" alt="">
+                    <h3>Javascript</h3>
+                </article>
+            </div>
+        </section>
+        
         <section id="contact" class="contact">
             <h2>Contact Us</h2>
             <div class="contact__container">
                 <form action="https://formspree.io/f/xnjajgvb" method="POST" id="form" class="contact__form">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <input class="contact_form_text" type="email" id="email" name="email" placeholder="Email" required>
                     <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                    <input class="contact_form_text" type="text" id="subject" name="subject" placeholder="Subject" required>
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
+                    <textarea class="contact_form_text" id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
                     <button type="submit">Send</button>
                 </form>
                 <img src="mail.png" alt="" srcset="">
@@ -125,11 +136,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="script.js" defer></script>
-    <div id="prefabs" style="display: none;" aria-hidden="true">
-        <span class="word-style"></span>
-        <span class="word-style" underline="true"></span>
-        <span class="word-style" highlight="true"></span>
-        <span class="word-style" clear="true"></span>
-    </div>
 </body>
 </html>
