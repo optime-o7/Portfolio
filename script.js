@@ -450,8 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
     section = document.getElementById('ai');
     sectionTitle = document.getElementById('ai-title');
     aiText = document.getElementById('ai-text');
-    aiInput = document.getElementById('ai-input');
-    aiDiv = document.getElementById('result-container');
 
     highlights = [
         "serious",
@@ -495,18 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 15,
         delay: 2.5,
         startTrigger: "top top"
-    }])
-
-    elements.push([{ element: aiInput, order: order }, {
-        parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.1)", "backdrop-filter": "blur(10px)", "box-shadow": "0 0 20px 10px rgba(0, 0, 0, 0.2)", duration: 30}, delay: 5 },
-        parentMovement: { duration: 20, delay: 85 },
-        breakWords: true,
-        finalAttrs: { opacity: 1, color: "white" },
-        commonWordStyleClass: "word",
-        duration: 15,
-        delay: 2.5,
-        startTrigger: "top top"
-    }])
+    }]);
 
     animateSection(section, 150, 0.5, "top top", true, elements, { global: 0, text: 0}, false);
 
@@ -617,25 +604,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-    
-    input = document.getElementById("ai-input");
-    result_container = document.getElementById("result-container");
-
-    input.addEventListener("keydown", (event) => {        
-        if (event.key.toLowerCase().includes("enter") && input.value != "")
-        {
-            input.value = "";
-
-            result_container.setAttribute('load', "true");
-            input.style.display = "none";
-
-            // Si querés que se pueda repetir, tenés que sacársela cuando termine
-            result_container.addEventListener('animationend', (e) => {
-                result_container.removeAttribute('load');
-                result_container.setAttribute('loaded', "true");
-            });
-        }
-        
-    });
-
 });
