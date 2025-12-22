@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6{
     color: transparent;
     -webkit-text-stroke-color: #ffffff;
     -webkit-text-stroke-width: 0.025rem;
-    transition: background-size 0.5s ease, color 0.3s ease;
+    transition: background-size 0s ease, color 0.3s ease;
     cursor: default;
 }
 
@@ -322,12 +322,12 @@ h1, h2, h3, h4, h5, h6{
     margin: 0 auto;
 }
 
-.about__text--2{
+.about__text--2, .projects__endtext{
     font-size: 2.75cqi;
     opacity: 1;
 }
 
-.about__text--2 .word{
+.about__text--2 .word, .projects__endtext .word{
     margin-right: 0.25em;
     opacity: 0;
     color: transparent;
@@ -342,7 +342,7 @@ h1, h2, h3, h4, h5, h6{
 
 /* Projects */
 
-#projects-title-container{
+#projects-title-container, #projects-end-text-container{
     display: flex;
     text-align: center;
     flex-direction: column;
@@ -437,19 +437,201 @@ h1, h2, h3, h4, h5, h6{
     font-size: 1.3cqi;
     margin: auto 2vh;
 }
+/* Knowledge */
 
 .knowledge{
     display: flex;
-    flex-direction: column;
+    text-align: center;
     align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+#knowledge-title-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.knowledge__title{
+    font-size: 2.75cqi;
+    opacity: 1;
+}
+
+.knowledge__title .word{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 0;
+    margin-right: 0.25em;
+    color: transparent;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0s ease, color 0.3s ease;
+    cursor: default;
 }
 
 .knowledge__container{
-    width: 100%;
+    font-size: 2.5cqi;
+    opacity: 1;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.knowledge__item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 12.5cqi;
+    max-width: 12.5cqi;
+}
+
+.knowledge__item img{
+    opacity: 0;
+    display: flex;
+    margin: 0 auto;
+    width: 10cqi;
+    height: auto;
+}
+
+.knowledge__container .word{
+    margin-top: 0;
+    font-size: 2.5cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 0;
+    margin-right: 0.25em;
+    color: transparent;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0s ease, color 0.3s ease;
+    cursor: default;
+}
+
+/* AI */
+
+#knowledge-tease-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.knowledge__tease{
+    font-size: 2.75cqi;
+    opacity: 1;
+}
+
+.knowledge__tease .word{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 0;
+    margin-right: 0.25em;
+    color: transparent;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0s ease, color 0.3s ease;
+    cursor: default;
+}
+
+.ai{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+#ai-title-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.ai__title{
+    font-size: 3.75cqi;
+    opacity: 1;
+    margin: 0;
+}
+
+.ai__title p{
+    margin: 0;
+    margin-top: 2cqi;
+    margin-bottom: 2cqi;
+}
+
+.ai__title .word{
+    font-size: 3.75cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 0;
+    margin-right: 0.25em;
+    color: transparent;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0s ease, color 0.3s ease;
+    cursor: default;
+}
+
+#ai-content{
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    max-height: 100vh;
+    size: 50%;
+}
+
+.ai__container{
+    display: flex;
+    flex-direction: column;
+    padding-left: 3.5cqi;
+    padding-right: 0;
+    width: 30vw;
+    margin: 0 auto;
+    height: 120vh;
+    border-radius: 30px;
+    background-color: transparent;
+}
+
+#ai-img{
+    position: relative;
+    width: 65vw;
+    height: 100vh;
+    border-radius: 15px;
+    margin: 0 auto;
+    opacity: 0;
+    overflow: hidden;
+
+    /* Tu configuración de fondo */
+    background-image: linear-gradient(#FF5733, #FF5733);
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-size: 0% 100px;
+    transition: background-size 0.5s ease;
+}
+
+.ai__text{
+    font-size: 2.75cqi;
+    opacity: 1;
+}
+
+.ai__text .word{
+    font-size: 2.75cqi;
+    font-family: var(--styled-font);
+    display: inline-block;
+    opacity: 1;
+    margin-right: 0.25em;
+    color: transparent;
+    -webkit-text-stroke-color: #ffffff;
+    -webkit-text-stroke-width: 0.025rem;
+    transition: background-size 0s ease, color 0.3s ease;
+    cursor: default;
 }
 
 /* Contact */

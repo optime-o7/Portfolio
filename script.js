@@ -48,6 +48,25 @@ document.addEventListener('DOMContentLoaded', () => {
     //      --- About Text ---
     gsap.registerPlugin(ScrollTrigger);
     
+    function getOverlapHeight(container, content) {
+        const parent = container.getBoundingClientRect();
+        const child = content.getBoundingClientRect();
+
+        // El punto más alto donde coinciden
+        const topOverlap = Math.max(parent.top, child.top);
+        
+        // El punto más bajo donde coinciden
+        const bottomOverlap = Math.min(parent.bottom, child.bottom);
+
+        // La diferencia es lo que se ve
+        const visibleHeight = bottomOverlap - topOverlap;
+
+        console.log(visibleHeight);
+        
+        // Si es menor a 0, no se están tocando ni de cerca
+        return Math.max(0, visibleHeight);
+    }
+
     function getStyleObject(defaultSelector, parentClass, modifiers, modifyingStyles) {
         const defaultStyle = window.getComputedStyle(parentClass);
 
@@ -60,16 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modifiers.length != 0)
         {                               
             for (modifier of modifiers){
-                modifierSelector = `${defaultSelector}[${modifier}]`;
+                modifierSelector = `${defaultSelector}[${modifier}][alreadyAnimated]`;
+                
                 const element = document.querySelector(modifierSelector);
                 const styles = window.getComputedStyle(element);
-
+                
+                
                 for (i = 0; i < modifyingStyles.length; i++)
                 {
                     n = modifyingStyles[i];
                     value = styles[n];
                     
-                    if (value != defaultStyle[n]) finalAttrs[n] = value;
+                    finalAttrs[n] = value;
                 }
             }
             
@@ -80,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function animateText(element, args = {
         breakWords: false,
+        customTimeline: false,
+        animateThrough: false,
         finalAttrs: {},
         commonWordStyleClass,
         highlights: [],
@@ -98,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     {
         let {
             breakWords = false,
+            customTimeline = false,
+            animateThrough = false,
             finalAttrs = {},
             commonWordStyleClass = "word",
             highlights = [],
@@ -112,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
             primaryParent = "",
             parentAnimation = false,
             parentArgs = { movement_ratio: 6, duration: 5, delay: 3 },
-            extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
-        
+        extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
+    
         parent = element.parentElement;
         if (primaryParent == "") primaryParent = parent;
 
@@ -125,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let words = [];
     
                 for (let word of element.textContent.trim().split(/\s+/)) {
-                    if (word.includes('.')) {
+                    if (word.includes('.') && !word.includes('...')) {
                         // Si tiene punto, lo agregamos al sub-array actual
                         w = word.split('.');
                         currentSentence.push(w[0] + '.'); // Agregamos la palabra con el punto
@@ -151,9 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         modifiers = "";
     
                         // check highlights & underlines
-                        for (highlight of highlights) if (word.toLowerCase().includes(highlight.toLowerCase())) modifiers += ' highlight="true"';
                         for (clear of clears) if (word.toLowerCase().includes(clear.toLowerCase())) modifiers += ' clear="true"';
                         for (underline of underlines) if (word.toLowerCase().includes(underline.toLowerCase())) modifiers += ' underline="true"';
+                        for (highlight of highlights) if (word.toLowerCase().includes(highlight.toLowerCase())) modifiers += ' highlight="true"';
                         
                         return `<span class="${commonWordStyleClass}"${modifiers}>${word}</span>`;
                     }).join('');
@@ -162,59 +187,79 @@ document.addEventListener('DOMContentLoaded', () => {
                     return `<p class="sentence-container">${contenidoFrase}</p>`;
                 }).join('');
             }
-
+            
             // 2. CREAMOS UNA TIMELINE PARA CONTROLAR EL ORDEN
             // Esto hace que las cosas pasen una tras otra o solapadas
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: primaryParent,
-                    start: startTrigger,
-                    end: `+=${duration}%`,
-                    scrub: animation_softening,
-                    pin: pinned,
-                    markers: markers,
-                }
-            });
+            if (!customTimeline) {                
+                tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: primaryParent,
+                        start: startTrigger,
+                        end: `+=${duration}%`,
+                        scrub: animation_softening,
+                        pin: pinned,
+                        markers: markers,
+                    }
+                });
+            }
+            else tl = customTimeline;
 
             if (parentAnimation) tl.to(parent, { "background-color": "rgba(0, 0, 0, 0.05)", duration: 1 }, "<");
+
+            if (customTimeline != false) d = duration;
+            else d = 2;
 
             if (breakWords)
             {
                 element.querySelectorAll(`.${commonWordStyleClass}`).forEach((word) => {
                     // Checkeamos si la palabra actual tiene la clase de resaltado
                     const style = word.getAttributeNames().filter(item => item != "class");
-                    
+
                     tl.to(word, {
-                        ...getStyleObject(`.${commonWordStyleClass}`, element, style,[
+                        ...getStyleObject(`.${commonWordStyleClass}`, element, style, [
                             "color",
-                            "fontStyle"]),
+                            "fontStyle",
+                            "background-size"]),
                             onUpdate: () => {
+                                if (animateThrough) gsap.set(word, { clearProps: "" });
+                                else gsap.set(word, { clearProps: "color" });
+
+                                word.removeAttribute("alreadyanimated");
+                            },
+                            onComplete: () => {
                                 gsap.set(word, { clearProps: "color" });
-                                word.removeAttribute("alreadyanimated");},
-                            onComplete: () => word.setAttribute("alreadyanimated", "true"),
-                            duration: 2
+                                word.setAttribute("alreadyanimated", "true")
+                            },
+                            duration: d
                     }, `<${delay}`);
                 });
             }
             else
             {
                 tl.to(element, { ...finalAttrs,
-                    duration: 2
+                    duration: d
                 }, `<${delay}`);
             }
             
             for (e of extra_elements) tl.to(e.elementid, e.args, e.delay);
 
-            if (parentAnimation && pinned) {
+            if (parentAnimation) {
                 // Medimos el alto real del contenedor de texto
-                const aboutContent = parent;
-                const containerHeight = aboutContent.offsetHeight;
-                const windowHeight = window.innerHeight;
+                children = parent.parentElement.parentElement.children;
+                let parentH = 0;
+                let contentH = element.getBoundingClientRect().height;
                 
+                for (i = 0; i < children.length; i++) parentH += children[i].getBoundingClientRect().height;
+
                 // El cálculo mágico: lo que sobra es lo que tiene que subir
                 // Usamos un valor negativo para que suba (eje Y)
-                const distanceToMove = -(containerHeight/parentArgs["movement_ratio"]);
+                let distanceToMove = 0;
 
+                if (parentH > contentH) distanceToMove = -(parentH - contentH);
+                else distanceToMove = -(contentH - parentH);
+
+                console.log(distanceToMove);
+                
                 tl.to(parent, {
                     // Si la distancia es positiva (el texto es más alto que la pantalla), sube.
                     // Si no, se queda en 0 para no dejar huecos.
@@ -226,50 +271,90 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function animateSection(element, duration, animationDuration, startTrigger = "top top", pinned = false, elements = [{}], common_delay = { global: 0, text: 0 }, markers = false)
+    function animateSection(element, duration, scrub, startTrigger = "top top", pinned = false, elements = [{}], common_delay = { global: 0, text: 0 }, markers = false)
     {
         if (element) {
+            // sort            
+            elements.sort((actual, siguiente) => {
+                a = actual[0].order;
+                b = siguiente[0].order;
+                
+                if (a === undefined) return 1;
+                if (b === undefined) return -1;
+                
+                return a - b;
+            });            
+            
+            elements.forEach(a =>{
+                if (a[1].hasOwnProperty('duration')) duration += a[1].duration;
+            }
+            );
+
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: element,      // El section padre
                     start: startTrigger,       // Se pega cuando el tope del div llega al tope de la pantalla
                     end: `+=${duration}%`,          // Cuánto tiempo querés que se quede pegado (2000px de scroll)
-                    scrub: 2.5,             // Suavizado de la animación
+                    scrub: scrub,             // Suavizado de la animación
                     pin: pinned,              // ¡ESTA ES LA MAGIA! Bloquea el scroll visual
                     markers: markers
                 }
             });
 
-            // organizar
-            elements.forEach(e => {
-                console.log(e);
-                
-            });
+            textDelay = common_delay.text;
+            globalDelay = common_delay.global;
+            textIndex = 0;
+            globalIndex = 0;
+            localDelay = 0;
+            lastOrder = null;
             
-            for (i = 0; i < textargs.length; i++)
-            {
-                
-            }
-            // aplicar arguments
-            for (i = 0; i < textargs["args"].length; i){
-                e = textargs["args"][i];
-                i = 1;
-                e[1]["delay"] += i * textargs["delay_between"];
-                animateText(...e);
-            }
+            // apply arguments
+            elements.forEach(e => {
+                details = e[0];                
+                args = e[1];
 
-            elementsargs.forEach(finalAttrs => {                
-                tl.to(finalAttrs[0], {...finalAttrs[1]["finalAttrs"],
-                    duration: 2
-                }, `<${finalAttrs[1]["delay_between"] * i + common_delay}`);
-                common_delay++;
+                // DEFINIMOS EL PUNTO DE ENTRADA
+                // Si el orden es igual al anterior, entra con "<" (mismo tiempo)
+                // Si el orden cambió, entra al final de la línea de tiempo
+                const posicionEntrada = (details.order === lastOrder) ? "<" : "+=0";
+
+                if (details.hasOwnProperty('type') && details.type == "text") {
+                    if (lastOrder != details.order) {
+                        args.delay += textDelay * textIndex + localDelay;
+                        localDelay += args.delay;
+                    } 
+                    // Si el orden es igual, NO resetees args.delay a 0 de prepo, 
+                    // mejor dejá que el posicionEntrada lo maneje.
+
+                    args.customTimeline = gsap.timeline();
+                    
+                    // ¡ACÁ ESTÁ LA PAPA! Agregamos la timeline en la posición calculada
+                    tl.add(args.customTimeline, posicionEntrada);
+                    
+                    animateText(details.element, args);
+                    textIndex++;
+                } else {                    
+                    // Lógica para elementos que no son texto (las cards por ejemplo)
+                    localTl = gsap.timeline();
+                    tl.add(localTl, posicionEntrada);
+                    
+                    localTl.to(details.element, {
+                        ...args.finalAttrs,
+                        duration: args.duration
+                    }); // Ponemos 0 acá porque el "delay" ya lo maneja el tl.add con posicionEntrada
+
+                    if (lastOrder != details.order) {
+                        localDelay += args.delay_between * globalIndex + globalDelay;
+                        globalIndex++;
+                    }
+                }
+
+                lastOrder = details.order;
             });
         }
     }
 
     const aboutText = document.getElementById('about-text');
-
-    words = [];
     if (aboutText) {
         highlights = [
             "serious",
@@ -298,30 +383,131 @@ document.addEventListener('DOMContentLoaded', () => {
         [{ element: document.getElementById('projects-title'), type: "text", order: 0 }, {
         finalAttrs: { opacity: 1, color: "white" },
         commonWordStyleClass: "word",
-        duration: 30,
+        duration: 10,
         delay: 0.25,
         animation_softening: 0.25,
-        startTrigger: "top top",}],
+        startTrigger: "top top"}],
 
         [{ element: document.getElementById('projects-end-text'), type: "text" },
         {
+            breakWords: true,
+            animateThrough: true,
             finalAttrs: { opacity: 1, color: "white" },
             commonWordStyleClass: "word",
-            duration: 30,
-            delay: 0.25,
-            animation_softening: 0.25,
-            startTrigger: "top top",}]];
+            highlights: ["there's", "more"],
+            duration: 10,
+            delay: 0,
+            animation_softening: 0,
+            startTrigger: "top top",
+            markers: true
+        }]];
     
-    i = 0;
-    elements.forEach(e => { if (e[0].hasOwnProperty('order')) i += 1 });
+    order = 0;
+    elements.forEach(e => { if (e[0].hasOwnProperty('order')) order += 1 });
     divs = document.querySelectorAll('.project_content');
     
-    for (; i < divs.length; i++) divs.forEach(element => {
-        elements.push([{ element: element, order: (i) }, { finalAttrs: { opacity: 1 }, delay_between: 1 }]);
-    });    
+    for (i = 0; i < divs.length; i++) elements.push([{ element: divs[i], order: (order + i) }, { finalAttrs: { opacity: 1 }, duration: 5, delay_between: 1 }]);
 
-    animateSection(document.getElementById('projects'), 150, 0, "top top", true, elements, { global: 0, text: 0}, false);
+    animateSection(document.getElementById('projects'), 150, 2.5, "top top", true, elements, { global: 0, text: 0}, false);
     
+    elements = [];
+    section = document.getElementById('knowledge');
+    sectionTitle = document.getElementById('knowledge-title');
+    allText = section.querySelectorAll('article');
+    order = 0;
+    
+    elements.push([{ element: sectionTitle, type: "text", order: order },{
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 10,
+        delay: 0.25,
+        animation_softening: 0.25,
+        startTrigger: "top top"}]);
+    
+    order++;
+    
+    for (i = 0; i < allText.length; i++){
+        elements.push([{ element: allText[i].querySelector('h3'), type: "text", order: (order + i) }, 
+        {
+            breakWords: true,
+            animateThrough: true,
+            finalAttrs: { opacity: 1, color: "white" },
+            highlights: ["html", "css", "javascript", "python", "ai", "integration"],
+            commonWordStyleClass: "word",
+            duration: 30,
+            delay: 1,
+            animation_softening: 0,
+            startTrigger: "top top",
+            markers: true
+        }]);
+        tArgs = elements[elements.length - 1][1]
+        elements.push([{ element: allText[i].querySelector('img'), order: (order + i) }, {
+            finalAttrs: { opacity: 1 },
+            duration: tArgs.duration,
+            delay: tArgs.delay }]);
+    }
+    
+    animateSection(section, 150, 2.5, "top top", true, elements, { global: 0, text: 0}, false);
+    animateText(document.getElementById('knowledge-tease'), {
+        breakWords: true,
+        animateThrough: true,
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 50,
+        delay: 0.25,
+        animation_softening: 0.25,
+        startTrigger: "top top",
+        pinned: true}
+    );
+    
+    elements = [];
+    section = document.getElementById('ai');
+    sectionTitle = document.getElementById('ai-title');
+    aiText = document.getElementById('ai-text');
+
+    highlights = [
+        "serious",
+        "Small",
+        "team"
+    ];
+    clears = [
+        "clarity"
+    ];
+    underlines = [
+        "clean",
+        "fast",
+        "modern",
+        "direct",
+        "communication",
+        "solid",
+        "execution",
+    ];
+
+    order = 0;
+    elements.push([{ element: sectionTitle, type: "text", order: order },{
+        breakWords: true,
+        animateThrough: true,
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 20,
+        delay: 0.01,
+        startTrigger: "top top"}]);
+    
+    order++;
+
+    elements.push([{ element: aiText, type: "text", order: order }, {
+        parentAnimation: true,
+        breakWords: true,
+        animateThrough: true,
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 50,
+        delay: 0.01,
+        startTrigger: "top top"
+    }])
+
+    animateSection(section, 150, 0.5, "top top", true, elements, { global: 0, text: 0}, false);
+
     //              --- Glass words ---
     
     const glassWords = document.querySelectorAll('.word[clear]');
