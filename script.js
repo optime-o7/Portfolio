@@ -47,25 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //      --- About Text ---
     gsap.registerPlugin(ScrollTrigger);
-    
-    function getOverlapHeight(container, content) {
-        const parent = container.getBoundingClientRect();
-        const child = content.getBoundingClientRect();
-
-        // El punto más alto donde coinciden
-        const topOverlap = Math.max(parent.top, child.top);
-        
-        // El punto más bajo donde coinciden
-        const bottomOverlap = Math.min(parent.bottom, child.bottom);
-
-        // La diferencia es lo que se ve
-        const visibleHeight = bottomOverlap - topOverlap;
-
-        console.log(visibleHeight);
-        
-        // Si es menor a 0, no se están tocando ni de cerca
-        return Math.max(0, visibleHeight);
-    }
 
     function getStyleObject(defaultSelector, parentClass, modifiers, modifyingStyles) {
         const defaultStyle = window.getComputedStyle(parentClass);
@@ -83,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const element = document.querySelector(modifierSelector);
                 const styles = window.getComputedStyle(element);
-                
                 
                 for (i = 0; i < modifyingStyles.length; i++)
                 {
@@ -105,9 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animateThrough: false,
         finalAttrs: {},
         commonWordStyleClass,
-        highlights: [],
-        clears: [],
-        underlines: [],
+        modifiers: [],
         duration,
         delay,
         animation_softening,
@@ -116,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         markers: false,
         primaryParent: "",
         parentAnimation: false,
-        parentArgs: {movement_ratio: 6, duration: 5, delay: 3},
+        parentMovement: false,
         extra_elements: [{elementid: "", args: [], delay: 0}]})
     {
         let {
@@ -125,9 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animateThrough = false,
             finalAttrs = {},
             commonWordStyleClass = "word",
-            highlights = [],
-            clears = [],
-            underlines = [],
+            modifiers = [],
             duration,
             delay,
             animation_softening,
@@ -136,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
             markers = false,
             primaryParent = "",
             parentAnimation = false,
-            parentArgs = { movement_ratio: 6, duration: 5, delay: 3 },
-        extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
+            parentMovement = false,
+            extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
     
         parent = element.parentElement;
         if (primaryParent == "") primaryParent = parent;
@@ -173,14 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.innerHTML = words[0].map((frase) => {
                     // Procesamos cada palabra de la frase actual
                     const contenidoFrase = frase.map(word => {
-                        modifiers = "";
+                        m_text = "";
     
-                        // check highlights & underlines
-                        for (clear of clears) if (word.toLowerCase().includes(clear.toLowerCase())) modifiers += ' clear="true"';
-                        for (underline of underlines) if (word.toLowerCase().includes(underline.toLowerCase())) modifiers += ' underline="true"';
-                        for (highlight of highlights) if (word.toLowerCase().includes(highlight.toLowerCase())) modifiers += ' highlight="true"';
-                        
-                        return `<span class="${commonWordStyleClass}"${modifiers}>${word}</span>`;
+                        // check modifiers
+                        modifiers.forEach((m) => 
+                        {
+                            for (mod of m.items) if (word.toLowerCase().includes(mod.toLowerCase())) m_text += ` ${m.name}="true"`;
+                        }
+                        );
+
+                        return `<span class="${commonWordStyleClass}"${m_text}>${word}</span>`;
                     }).join('');
     
                     // Envolvemos toda la frase en un elemento de bloque (como un párrafo)
@@ -203,8 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             else tl = customTimeline;
-
-            if (parentAnimation) tl.to(parent, { "background-color": "rgba(0, 0, 0, 0.05)", duration: 1 }, "<");
+            
+            if (parentAnimation != false) tl.to(parent, parentAnimation.finalAttrs, `${parentAnimation.followThrough ? "<" : "+="}${parentAnimation.delay}`);
 
             if (customTimeline != false) d = duration;
             else d = 2;
@@ -219,7 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         ...getStyleObject(`.${commonWordStyleClass}`, element, style, [
                             "color",
                             "fontStyle",
-                            "background-size"]),
+                            "background-size",
+                            "background-position-x"]),
                             onUpdate: () => {
                                 if (animateThrough) gsap.set(word, { clearProps: "" });
                                 else gsap.set(word, { clearProps: "color" });
@@ -243,35 +222,37 @@ document.addEventListener('DOMContentLoaded', () => {
             
             for (e of extra_elements) tl.to(e.elementid, e.args, e.delay);
 
-            if (parentAnimation) {
+            if (parentMovement != false) {
                 // Medimos el alto real del contenedor de texto
                 children = parent.parentElement.parentElement.children;
-                let parentH = 0;
-                let contentH = element.getBoundingClientRect().height;
+                let parentH = parent.parentElement.getBoundingClientRect().height;
+                let contentH = parent.getBoundingClientRect().height;
                 
-                for (i = 0; i < children.length; i++) parentH += children[i].getBoundingClientRect().height;
+                for (i = 0; i < children.length; i++)
+                {
+                    if (children[i] != parent.parentElement && window.getComputedStyle(children[i]).position != "absolute") parentH -= children[i].getBoundingClientRect().height;
+                }
 
-                // El cálculo mágico: lo que sobra es lo que tiene que subir
-                // Usamos un valor negativo para que suba (eje Y)
-                let distanceToMove = 0;
-
-                if (parentH > contentH) distanceToMove = -(parentH - contentH);
-                else distanceToMove = -(contentH - parentH);
-
-                console.log(distanceToMove);
-                
-                tl.to(parent, {
-                    // Si la distancia es positiva (el texto es más alto que la pantalla), sube.
-                    // Si no, se queda en 0 para no dejar huecos.
-                    y: distanceToMove < 0 ? distanceToMove : 0,
-                    duration: parentArgs["duration"],
-                    ease: "none" // "none" es mejor para scrolls sincronizados
-                }, parentArgs["delay"]);
+                if (window.innerHeight < parent.getBoundingClientRect().height)
+                {
+                    // El cálculo mágico: lo que sobra es lo que tiene que subir
+                    // Usamos un valor negativo para que suba (eje Y)
+                    let distanceToMove = 0;
+                    distanceToMove = -(contentH - parentH);
+                    
+                    tl.to(parent, {
+                        // Si la distancia es positiva (el texto es más alto que la pantalla), sube.
+                        // Si no, se queda en 0 para no dejar huecos.
+                        y: distanceToMove < 0 ? distanceToMove : 0,
+                        duration: parentMovement["duration"],
+                        ease: "none" // "none" es mejor para scrolls sincronizados
+                    }, parentMovement["delay"]);
+                }
             }
         }
     }
     
-    function animateSection(element, duration, scrub, startTrigger = "top top", pinned = false, elements = [{}], common_delay = { global: 0, text: 0 }, markers = false)
+    function animateSection(element, duration, scrub, startTrigger = "top top", pinned = false, elements = [{}], common_delay = { global: 0, text: 0, img: 0 }, markers = false)
     {
         if (element) {
             // sort            
@@ -302,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             textDelay = common_delay.text;
+            imgDelay = common_delay.img;
             globalDelay = common_delay.global;
             textIndex = 0;
             globalIndex = 0;
@@ -312,17 +294,17 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.forEach(e => {
                 details = e[0];                
                 args = e[1];
-
+                
                 // DEFINIMOS EL PUNTO DE ENTRADA
                 // Si el orden es igual al anterior, entra con "<" (mismo tiempo)
                 // Si el orden cambió, entra al final de la línea de tiempo
-                const posicionEntrada = (details.order === lastOrder) ? "<" : "+=0";
+                let posicionEntrada = (details.order === lastOrder) ? "<" : "+=0";
 
                 if (details.hasOwnProperty('type') && details.type == "text") {
                     if (lastOrder != details.order) {
-                        args.delay += textDelay * textIndex + localDelay;
+                        args.delay += textDelay * textIndex;
                         localDelay += args.delay;
-                    } 
+                    }
                     // Si el orden es igual, NO resetees args.delay a 0 de prepo, 
                     // mejor dejá que el posicionEntrada lo maneje.
 
@@ -334,6 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     animateText(details.element, args);
                     textIndex++;
                 } else {                    
+                    posicionEntrada == "<" ? posicionEntrada += `${localDelay}` : posicionEntrada;
+
                     // Lógica para elementos que no son texto (las cards por ejemplo)
                     localTl = gsap.timeline();
                     tl.add(localTl, posicionEntrada);
@@ -344,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }); // Ponemos 0 acá porque el "delay" ya lo maneja el tl.add con posicionEntrada
 
                     if (lastOrder != details.order) {
-                        localDelay += args.delay_between * globalIndex + globalDelay;
+                        localDelay += args.delay_between * globalIndex + imgDelay;
                         globalIndex++;
                     }
                 }
@@ -374,10 +358,10 @@ document.addEventListener('DOMContentLoaded', () => {
             "execution",
         ]
 
-        animateText(aboutText, {breakWords: true, commonWordStyleClass: "word", highlights: highlights, clears: clears, underlines: underlines, duration: 120, delay: 0.14, animation_softening: 2.5, startTrigger: "top top", pinned: true, primaryParent: "#about", parentAnimation: true, parentArgs: { movement_ratio: 6, duration: 5, delay: 3 }, extra_elements: [{elementid: "#about-img", args: {opacity: 1, duration: 3}, delay: 1}]});
+        animateText(aboutText, {breakWords: true, commonWordStyleClass: "word", modifiers: [{name: "highlight", items: highlights}, {name: "clear", items: clears}, {name: "underline", items: underlines}], duration: 120, delay: 0.14, animation_softening: 2.5, startTrigger: "top top", pinned: true, primaryParent: "#about", parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.05)", duration: 1 }, delay: 0 }, parentMovement: { duration: 5, delay: 3 }, extra_elements: [{elementid: "#about-img", args: {opacity: 1, duration: 3}, delay: 1}]});
     }
 
-    animateText(document.getElementById('about-text-2'), {breakWords: true, commonWordStyleClass: "word", highlights: ["actually", "needs"], clears: [], underlines: ["we", "build", "it", "right"], duration: 40, delay: 500, animation_softening: 0.25, startTrigger: "top 70%"});
+    animateText(document.getElementById('about-text-2'), {breakWords: true, commonWordStyleClass: "word", modifiers: [{ name: "highlight", items: ["actually", "needs"] }, { name: "underline", items: ["we", "build", "it", "right"] }], duration: 40, delay: 500, animation_softening: 0.25, startTrigger: "top 70%"});
     
     elements = [
         [{ element: document.getElementById('projects-title'), type: "text", order: 0 }, {
@@ -394,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             animateThrough: true,
             finalAttrs: { opacity: 1, color: "white" },
             commonWordStyleClass: "word",
-            highlights: ["there's", "more"],
+            modifiers: [{ name: "highlight", items: ["there's", "more"] }],
             duration: 10,
             delay: 0,
             animation_softening: 0,
@@ -418,9 +402,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     elements.push([{ element: sectionTitle, type: "text", order: order },{
         finalAttrs: { opacity: 1, color: "white" },
+        breakWords: true,
+        animateThrough: true,
         commonWordStyleClass: "word",
-        duration: 10,
-        delay: 0.25,
+        duration: 50,
+        delay: 5,
         animation_softening: 0.25,
         startTrigger: "top top"}]);
     
@@ -432,9 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
             breakWords: true,
             animateThrough: true,
             finalAttrs: { opacity: 1, color: "white" },
-            highlights: ["html", "css", "javascript", "python", "ai", "integration"],
+            modifiers: [{ name: "highlight", items: ["html", "css", "javascript", "python", "c#"] }],
             commonWordStyleClass: "word",
-            duration: 30,
+            duration: 10,
             delay: 1,
             animation_softening: 0,
             startTrigger: "top top",
@@ -444,10 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.push([{ element: allText[i].querySelector('img'), order: (order + i) }, {
             finalAttrs: { opacity: 1 },
             duration: tArgs.duration,
-            delay: tArgs.delay }]);
+            delay: tArgs.delay * 1.5 }]);
     }
     
-    animateSection(section, 150, 2.5, "top top", true, elements, { global: 0, text: 0}, false);
+    animateSection(section, 0, 2.5, "top top", true, elements, { global: 0, text: 0, img: 0 }, false);
     animateText(document.getElementById('knowledge-tease'), {
         breakWords: true,
         animateThrough: true,
@@ -464,6 +450,8 @@ document.addEventListener('DOMContentLoaded', () => {
     section = document.getElementById('ai');
     sectionTitle = document.getElementById('ai-title');
     aiText = document.getElementById('ai-text');
+    aiInput = document.getElementById('ai-input');
+    aiDiv = document.getElementById('result-container');
 
     highlights = [
         "serious",
@@ -485,6 +473,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     order = 0;
     elements.push([{ element: sectionTitle, type: "text", order: order },{
+        parentAnimation: { finalAttrs: {"background-color": "rgba(0, 0, 0, 0.2)", "backdrop-filter": "blur(20px)", "box-shadow": "0 0 20px 10px rgba(0, 0, 0, 0.25)", duration: 20}, delay: 5 },
+        extra_elements: [ {elementid: "#ai-img", args: {opacity: 1, duration: 10}, followThrough: false, delay: 10} ],
+        modifiers: [{ name: "multicolor", items: ["AI"] } ],
         breakWords: true,
         animateThrough: true,
         finalAttrs: { opacity: 1, color: "white" },
@@ -496,13 +487,24 @@ document.addEventListener('DOMContentLoaded', () => {
     order++;
 
     elements.push([{ element: aiText, type: "text", order: order }, {
-        parentAnimation: true,
+        parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.1)", "backdrop-filter": "blur(10px)", "box-shadow": "0 0 20px 10px rgba(0, 0, 0, 0.2)", duration: 30}, delay: 5 },
+        parentMovement: { duration: 20, delay: 85 },
         breakWords: true,
-        animateThrough: true,
         finalAttrs: { opacity: 1, color: "white" },
         commonWordStyleClass: "word",
-        duration: 50,
-        delay: 0.01,
+        duration: 15,
+        delay: 2.5,
+        startTrigger: "top top"
+    }])
+
+    elements.push([{ element: aiInput, order: order }, {
+        parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.1)", "backdrop-filter": "blur(10px)", "box-shadow": "0 0 20px 10px rgba(0, 0, 0, 0.2)", duration: 30}, delay: 5 },
+        parentMovement: { duration: 20, delay: 85 },
+        breakWords: true,
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 15,
+        delay: 2.5,
         startTrigger: "top top"
     }])
 
@@ -615,4 +617,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+    
+    input = document.getElementById("ai-input");
+    result_container = document.getElementById("result-container");
+
+    input.addEventListener("keydown", (event) => {        
+        if (event.key.toLowerCase().includes("enter") && input.value != "")
+        {
+            input.value = "";
+
+            result_container.setAttribute('load', "true");
+            input.style.display = "none";
+
+            // Si querés que se pueda repetir, tenés que sacársela cuando termine
+            result_container.addEventListener('animationend', (e) => {
+                result_container.removeAttribute('load');
+                result_container.setAttribute('loaded', "true");
+            });
+        }
+        
+    });
+
 });
