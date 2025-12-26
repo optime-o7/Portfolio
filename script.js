@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     //              --- Footer ---
     const footer = document.getElementById('copyright-footer');
-    if (footer) footer.textContent = `©JOMA Studios ${new Date().getFullYear()}. All rights reserved.`;
+    if (footer) footer.textContent = `©Clearstack ${new Date().getFullYear()}. All rights reserved.`;
 
     //          --- Navbar ---
     const nav = document.querySelector('nav');
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
     
         parent = element.parentElement;
+        phraseModifiers = [ "underline" ];
         if (primaryParent == "") primaryParent = parent;
 
         if (element) {
@@ -124,39 +125,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 let filteredW = [];
                 let currentSentence = []; // El sub-array donde guardamos las palabras actuales
                 let words = [];
-    
-                for (let word of element.textContent.trim().split(/\s+/)) {
+                currentPhrase = "";
+                modifierOpen = false;
+                lastOpen = false;
+                text = element.textContent.trim();
+
+                m = [];
+                
+                for (i = 0; i < modifiers.length; i++)
+                {
+                    if (modifiers[i].hasOwnProperty('items') && modifiers[i].name == "underline") m.push(...modifiers[i].items);
+                }
+
+                m.forEach((phrase) => {
+                    // Creamos la expresión regular dinámicamente con 'gi'
+                    // Usamos un escape por si la frase tiene caracteres raros como '#' o '+'
+                    let escapedPhrase = phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    let regex = new RegExp(escapedPhrase, 'gi');
+
+                    // Usamos el callback para capturar el 'match' original del texto
+                    text = text.replace(regex, (match) => {
+                        return `{${match}}`;
+                    });
+                });
+
+                text = text.replace(/\}\s*\{/g, ' ');
+                
+                
+                for (let word of text.split(/\s+/)) {
+                    if (word.includes('{'))
+                    {
+                        if (word.includes('}'))
+                        {
+                            word = word.replace('{', '$$$');
+                            word = word.replace('}', '');
+
+                            modifierOpen = false;
+                            lastOpen = true;
+                        }
+                        else
+                        {
+                            word = word.replace('{', '');
+                            modifierOpen = true;
+                        }
+                    }
+                    else if (word.includes('}'))
+                    {
+                        word = word.replace('}', '');
+                        modifierOpen = false;
+                        lastOpen = true;
+                    }
+                    if (modifierOpen || lastOpen)
+                    {
+                        if (lastOpen)
+                        {
+                            currentPhrase += word;
+                            currentSentence.push(currentPhrase);
+                            currentPhrase = "";
+                        }
+                        else currentPhrase += `${word} `;
+                    }
                     if (word.includes('.') && !word.includes('...')) {
                         // Si tiene punto, lo agregamos al sub-array actual
                         w = word.split('.');
-                        currentSentence.push(w[0] + '.'); // Agregamos la palabra con el punto
+                        add = true;
+                        currentSentence.forEach((sentence) => 
+                        {
+                            if (sentence.includes(w[0] + '.')) add = false;
+                        });
+
+                        if (add) currentSentence.push(w[0] + '.');
+                        
                         // Guardamos el grupo de palabras en el array principal
                         filteredW.push(currentSentence);
+                        
                         // Reseteamos el sub-array para la próxima tanda
                         currentSentence = [];
+                        
                         if (w[1] != "") currentSentence.push(w[1]); // Empezamos la nueva "oración" con lo que venga después del punto
                     } else {
                         // Si no tiene punto, sigue sumando a la "oración" actual
-                        currentSentence.push(word);
+                        if (!(modifierOpen || lastOpen)) currentSentence.push(word);
                     }
+                    lastOpen = false;
                 }
-    
+                
                 // Por si quedó algo colgado al final sin punto
                 if (currentSentence.length > 0) filteredW.push(currentSentence);
                 words.push(filteredW);
-    
+                
                 // 1. Separar en palabras
                 element.innerHTML = words[0].map((frase) => {
                     // Procesamos cada palabra de la frase actual
                     const contenidoFrase = frase.map(word => {
                         m_text = "";
-    
-                        // check modifiers
-                        modifiers.forEach((m) => 
+                        
+                        if (word.includes(' ') || word.includes('$$'))
                         {
-                            for (mod of m.items) if (word.toLowerCase().includes(mod.toLowerCase())) m_text += ` ${m.name}="true"`;
+                            if (word.includes('$$')) word = word.replace('$$', '');
+
+                            // check modifiers
+                            modifiers.forEach((m) => { for (mod of m.items) if (word.toLowerCase().includes(mod.toLowerCase())) m_text += ` ${m.name}="true"`; });
                         }
-                        );
+
+                        (word.includes('?') || word.includes('!') || word.includes('.')) && !word.includes('...') ? word += "" : word += "&nbsp;";
 
                         return `<span class="${commonWordStyleClass}"${m_text}>${word}</span>`;
                     }).join('');
@@ -192,7 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.querySelectorAll(`.${commonWordStyleClass}`).forEach((word) => {
                     // Checkeamos si la palabra actual tiene la clase de resaltado
                     const style = word.getAttributeNames().filter(item => item != "class");
+                    ogDelay = delay;
+                    isPhrase = word.textContent.includes(' ');
 
+                    if (isPhrase) delay *= word.textContent.split(' ').length + 1;
+                    
                     tl.to(word, {
                         ...getStyleObject(`.${commonWordStyleClass}`, element, style, [
                             "color",
@@ -211,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             },
                             duration: d
                     }, `<${delay}`);
+                    
+                    if (isPhrase) delay = ogDelay;
                 });
             }
             else
@@ -339,37 +417,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const aboutText = document.getElementById('about-text');
+    const aboutTitle = document.getElementById('about-title');
     if (aboutText) {
         highlights = [
-            "serious",
-            "Small",
-            "team"
+            "serious small team"
         ]
         clears = [
             "clarity"
         ]
         underlines = [
-            "clean",
-            "fast",
-            "modern",
+            "clean, fast and modern",
             "direct",
             "communication",
             "solid",
             "execution",
         ]
 
-        animateText(aboutText, {breakWords: true, commonWordStyleClass: "word", modifiers: [{name: "highlight", items: highlights}, {name: "clear", items: clears}, {name: "underline", items: underlines}], duration: 120, delay: 0.14, animation_softening: 2.5, startTrigger: "top top", pinned: true, primaryParent: "#about", parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.05)", duration: 1 }, delay: 0 }, parentMovement: { duration: 5, delay: 3 }, extra_elements: [{elementid: "#about-img", args: {opacity: 1, duration: 3}, delay: 1}]});
+        animateText(aboutTitle, {finalAttrs: { opacity: 1, color: "white" }, breakWords: true, commonWordStyleClass: "word", animateThrough: true, duration: 100, delay: 0.14, primaryParent: "#about-title", animation_softening: 0.5, startTrigger: "top bottom"});
+        animateText(aboutText, {animateThrough: true, breakWords: true, commonWordStyleClass: "word", modifiers: [{name: "highlight", items: highlights}, {name: "clear", items: clears}, {name: "underline", items: underlines}], duration: 120, delay: 0.14, animation_softening: 2.5, startTrigger: "top top", pinned: true, primaryParent: "#about", parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.05)", duration: 1 }, delay: 0 }, parentMovement: { duration: 5, delay: 3 }, extra_elements: [{elementid: "#about-img", args: {opacity: 1, duration: 3}, delay: 1}]});
     }
 
     animateText(document.getElementById('about-text-2'), {breakWords: true, commonWordStyleClass: "word", modifiers: [{ name: "highlight", items: ["actually", "needs"] }, { name: "underline", items: ["we", "build", "it", "right"] }], duration: 40, delay: 500, animation_softening: 0.25, startTrigger: "top 70%"});
     
     elements = [
         [{ element: document.getElementById('projects-title'), type: "text", order: 0 }, {
+        breakWords: true,
+        animateThrough: true,
         finalAttrs: { opacity: 1, color: "white" },
+        modifiers: [{ name: "highlight", items: ["most", "recent", "projects"] }],
         commonWordStyleClass: "word",
         duration: 10,
-        delay: 0.25,
-        animation_softening: 0.25,
+        delay: 1,
+        animation_softening: 0,
         startTrigger: "top top"}],
 
         [{ element: document.getElementById('projects-end-text'), type: "text" },
@@ -382,8 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: 10,
             delay: 0,
             animation_softening: 0,
-            startTrigger: "top top",
-            markers: true
+            startTrigger: "top top"
         }]];
     
     order = 0;
@@ -452,21 +530,17 @@ document.addEventListener('DOMContentLoaded', () => {
     aiText = document.getElementById('ai-text');
 
     highlights = [
-        "serious",
-        "Small",
-        "team"
-    ];
-    clears = [
-        "clarity"
+        "AI features",
+        "Automate small tasks",
+        "No buzzwords",
+        "Practical AI"
     ];
     underlines = [
-        "clean",
-        "fast",
-        "modern",
-        "direct",
-        "communication",
-        "solid",
-        "execution",
+        "actually help users",
+        "Reduce friction",
+        "improve everyday workflows",
+        "From smart assistants to content suggestions",
+        "where it makes sense"
     ];
 
     order = 0;
@@ -486,14 +560,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.push([{ element: aiText, type: "text", order: order }, {
         parentAnimation: { finalAttrs: { "background-color": "rgba(0, 0, 0, 0.1)", "backdrop-filter": "blur(10px)", "box-shadow": "0 0 20px 10px rgba(0, 0, 0, 0.2)", duration: 30}, delay: 5 },
-        parentMovement: { duration: 20, delay: 85 },
+        parentMovement: { duration: 20, delay: 65 },
+        modifiers: [{ name: "highlight", items: highlights }, { name: "underline", items: underlines }],
         breakWords: true,
+        animateThrough: true,
         finalAttrs: { opacity: 1, color: "white" },
         commonWordStyleClass: "word",
         duration: 15,
         delay: 2.5,
         startTrigger: "top top"
     }]);
+
+    animateSection(section, 150, 0.5, "top top", true, elements, { global: 0, text: 0}, false);
+
+    animateText(document.getElementById('contact-hint'), {
+        breakWords: true,
+        animateThrough: true,
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 100,
+        delay: 0.25,
+        animation_softening: 0.25,
+        startTrigger: "top top",
+        pinned: true}
+    );
+
+    elements = [];
+    section = document.getElementById('contact');
+    sectionTitle = document.getElementById('contact-title');
+    sectionSubtitle = document.getElementById('contact-subtitle');
+    contactForm = document.getElementById('form');
+    contactSM = document.getElementById('contact-sm');
+
+    order = 0;
+    elements.push([{ element: sectionTitle, type: "text", order: order },{
+        breakWords: true,
+        animateThrough: true,
+        modifiers: [{ name: "highlight", items: ["Contact", "us"] } ],
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 10,
+        delay: 0.01,
+        startTrigger: "top top"}]);
+    
+    order++;
+    elements.push([{ element: sectionSubtitle, type: "text", order: order },{
+        parentAnimation: { finalAttrs: { "background-color": "rgba(44, 44, 44, 0.25)", duration: 30}, delay: 3 },
+        breakWords: true,
+        animateThrough: true,
+        modifiers: [{ name: "highlight", items: ["love"] }, { name: "underline", items: ["from", "you"] }],
+        finalAttrs: { opacity: 1, color: "white" },
+        commonWordStyleClass: "word",
+        duration: 10,
+        delay: 5,
+        startTrigger: "top top"}]);
+    
+    order++;
+    elements.push([{ element: contactForm, order: order },{
+        finalAttrs: { opacity: 1 },
+        duration: 20,
+        delay: 0.01,
+        startTrigger: "top top"}]);
+    elements.push([{ element: contactSM, order: order },{
+        finalAttrs: { opacity: 1 },
+        duration: 20,
+        delay: 0.01,
+        startTrigger: "top top"}]);    
 
     animateSection(section, 150, 0.5, "top top", true, elements, { global: 0, text: 0}, false);
 

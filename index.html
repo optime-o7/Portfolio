@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link href="https://bartbeyond.art/wp-content/uploads/sfizia.woff2" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Birthstone&family=Dancing+Script:wght@400..700&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="normalize.css">
     <link rel="icon" href="/logo.svg" type="image/x-icon">
@@ -63,7 +64,7 @@
                         <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
-                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                            <p>AuroraCRM gives you clarity in your sales with a simple and fast interface.</p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +74,7 @@
                         <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
-                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                            <p>AuroraCRM gives you clarity in your sales with a simple and fast interface.</p>
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@
                         <a href="https://optime-o7.github.io/AuroraCRM" target="_blank" rel="noopener">AuroraCRM</a>
     
                         <div class="project_description">
-                            <p>AuroraCRM te da claridad en tus ventas con una interfaz simple y rápida.</p>
+                            <p>AuroraCRM gives you clarity in your sales with a simple and fast interface.</p>
                         </div>
                     </div>
                 </div>
@@ -115,8 +116,8 @@
                     <img src="python.png" alt="">
                 </article>
                 <article class="knowledge__item">
-                    <h3>Python</h3>
-                    <img src="python.png" alt="">
+                    <h3>C#</h3>
+                    <img src="csharp.png" alt="">
                 </article>
             </div>
         </section>
@@ -136,21 +137,50 @@
                 </div>
             </div>
         </section>
-
+        <div id="contact-hint-container">
+            <h2 id="contact-hint" class="contact__hint">...liked anything?</h2>
+        </div>
         <section id="contact" class="contact">
-            <h2>...liked anything?</h2>
-            <h2>Contact us!</h2>
-            <div class="contact__container">
-                <form action="https://formspree.io/f/xnjajgvb" method="POST" id="form" class="contact__form">
-                    <label for="email">Email</label>
-                    <input class="contact_form_text" type="email" id="email" name="email" placeholder="Email" required>
-                    <label for="subject">Subject</label>
-                    <input class="contact_form_text" type="text" id="subject" name="subject" placeholder="Subject" required>
-                    <label for="message">Message</label>
-                    <textarea class="contact_form_text" id="message" name="message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
-                    <button type="submit">Send</button>
-                </form>
-                <img src="mail.png" alt="" srcset="">
+            <div id="contact-title-container">
+                <h2 id="contact-title" class="contact__title">Contact us</h2>
+            </div>
+            <div id="contact-content" class="contact__content">
+                <div class="contact__left">
+                    <div id="contact-text-container">
+                        <p id="contact-subtitle" class="contact__subtitle">We'd love to hear from you!</p>
+                    </div>
+                    <div id="contact-sm-container">
+                        <div id="contact-sm" class="social__links">
+                            <a href="" target="_blank"><img src="whatsapp.svg"></a>
+                            <a href="" target="_blank"><img src="instagram.svg"></a>
+                            <a href="" target="_blank"><img src="twitter.svg"></a>
+                            <a href="https://github.com/optime-o7" target="_blank"><img src="github.svg"></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="contact-container" class="contact__container">
+                    <form action="https://formspree.io/f/xnjajgvb" method="POST" id="form" class="contact__form">
+                        <div class="contact__name">
+                            <div class="column">
+                                <label for="First name">First Name</label>
+                                <input class="contact_form_text" type="text" name="First name">
+                            </div>
+                            <div class="column">
+                                <label for="Last name">Last Name</label>
+                                <input class="contact_form_text" type="text" name="Last name">
+                            </div>
+                        </div>
+                        <div class="column">
+                            <label for="Email">Email</label>
+                            <input class="contact_form_text" type="email" id="email" name="Email" required>
+                        </div>
+                        <div class="column">
+                            <label for="Message">Message</label>
+                            <textarea class="contact_form_text" id="message" name="Message" rows="4" placeholder="Write something. We'll keep in touch!" required></textarea>
+                        </div>
+                        <button type="submit">Send</button>
+                    </form>
+                </div>
             </div>
             
         </section>
