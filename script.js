@@ -1,3 +1,5 @@
+phraseModifiers = [];
+
 document.addEventListener('DOMContentLoaded', () => {
     //              --- Footer ---
     const footer = document.getElementById('copyright-footer');
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modifiers.length != 0)
         {                               
             for (modifier of modifiers){
+                if (phraseModifiers.includes(modifier)) finalAttrs.display = "inline";
                 modifierSelector = `${defaultSelector}[${modifier}][alreadyAnimated]`;
                 
                 const element = document.querySelector(modifierSelector);
@@ -116,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             extra_elements = [{ elementid: "", args: [], delay: 0 }]} = args;
     
         parent = element.parentElement;
-        phraseModifiers = [ "underline" ];
+
         if (primaryParent == "") primaryParent = parent;
 
         if (element) {
@@ -134,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 for (i = 0; i < modifiers.length; i++)
                 {
-                    if (modifiers[i].hasOwnProperty('items') && modifiers[i].name == "underline") m.push(...modifiers[i].items);
+                    if (modifiers[i].hasOwnProperty('items')) m.push(...modifiers[i].items);
                 }
 
                 m.forEach((phrase) => {
@@ -148,9 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return `{${match}}`;
                     });
                 });
-
-                text = text.replace(/\}\s*\{/g, ' ');
-                
                 
                 for (let word of text.split(/\s+/)) {
                     if (word.includes('{'))
@@ -189,9 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Si tiene punto, lo agregamos al sub-array actual
                         w = word.split('.');
                         add = true;
-                        currentSentence.forEach((sentence) => 
+                        currentSentence.forEach((sentence, i) => 
                         {
-                            if (sentence.includes(w[0] + '.')) add = false;
+                            if (sentence.includes(w[0] + '.'))
+                            {
+                                if (sentence.split('.').length > 1) currentSentence[i] = sentence.split('.')[0] + ".";
+                                add = false;
+                            }
                         });
 
                         if (add) currentSentence.push(w[0] + '.');
@@ -218,6 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 element.innerHTML = words[0].map((frase) => {
                     // Procesamos cada palabra de la frase actual
                     const contenidoFrase = frase.map(word => {
+                        out = [];
+                        checked = [];
                         m_text = "";
                         
                         if (word.includes(' ') || word.includes('$$'))
@@ -225,11 +231,30 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (word.includes('$$')) word = word.replace('$$', '');
 
                             // check modifiers
-                            modifiers.forEach((m) => { for (mod of m.items) if (word.toLowerCase().includes(mod.toLowerCase())) m_text += ` ${m.name}="true"`; });
+                            modifiers.forEach((m) => {
+                                for (mod of m.items)
+                                {
+                                    if (word.toLowerCase().includes(mod.toLowerCase()) && !word.toLowerCase().includes(...checked))
+                                        {
+                                        checked.push(word.toLowerCase());
+
+                                        m_text += ` ${m.name}="true"`;
+                                        if (!phraseModifiers.length > 0 || (phraseModifiers.length > 0 && !m.name.toLowerCase().includes(phraseModifiers)))
+                                        {
+                                            word.split(' ').forEach((w, index) => 
+                                            {
+                                                (w.includes('?') || w.includes('!') || w.includes('.')) && !w.includes('...') ? w += "" : w += "&nbsp;";
+                                                if (index === (word.split(' ').length-1) && m.name.includes("underline")) m_text = ` underline_end="true"`;
+                                                out.push(`<span class="${commonWordStyleClass}"${m_text}>${w}</span>`);
+                                            });
+                                        }
+                                    }
+                                }});
                         }
 
-                        (word.includes('?') || word.includes('!') || word.includes('.')) && !word.includes('...') ? word += "" : word += "&nbsp;";
+                        if (out.length > 0) return out.join('');
 
+                        (word.includes('?') || word.includes('!') || word.includes('.')) && !word.includes('...') ? word += "" : word += "&nbsp;";
                         return `<span class="${commonWordStyleClass}"${m_text}>${word}</span>`;
                     }).join('');
     
@@ -420,17 +445,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutTitle = document.getElementById('about-title');
     if (aboutText) {
         highlights = [
-            "serious small team"
+            "look serious online",
+            "results",
+            "solid execution"
         ]
         clears = [
             "clarity"
         ]
         underlines = [
             "clean, fast and modern",
+            "performance",
             "direct",
             "communication",
-            "solid",
-            "execution",
         ]
 
         animateText(aboutTitle, {finalAttrs: { opacity: 1, color: "white" }, breakWords: true, commonWordStyleClass: "word", animateThrough: true, duration: 100, delay: 0.14, primaryParent: "#about-title", animation_softening: 0.5, startTrigger: "top bottom"});
@@ -517,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animateThrough: true,
         finalAttrs: { opacity: 1, color: "white" },
         commonWordStyleClass: "word",
-        duration: 50,
+        duration: 100,
         delay: 0.25,
         animation_softening: 0.25,
         startTrigger: "top top",
@@ -530,17 +556,15 @@ document.addEventListener('DOMContentLoaded', () => {
     aiText = document.getElementById('ai-text');
 
     highlights = [
-        "AI features",
-        "Automate small tasks",
-        "No buzzwords",
-        "Practical AI"
+        "Real impact",
+        "Optimize your workflow",
+        "Practical AI",
+        "needs it most"
     ];
     underlines = [
-        "actually help users",
-        "Reduce friction",
-        "improve everyday workflows",
-        "From smart assistants to content suggestions",
-        "where it makes sense"
+        "automated stock management",
+        "smart appointment scheduling",
+        "your business"
     ];
 
     order = 0;
@@ -608,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
         parentAnimation: { finalAttrs: { "background-color": "rgba(44, 44, 44, 0.25)", duration: 30}, delay: 3 },
         breakWords: true,
         animateThrough: true,
-        modifiers: [{ name: "highlight", items: ["love"] }, { name: "underline", items: ["from", "you"] }],
+        modifiers: [{ name: "highlight", items: ["love"] }, { name: "underline", items: ["from you"] }],
         finalAttrs: { opacity: 1, color: "white" },
         commonWordStyleClass: "word",
         duration: 10,
@@ -618,12 +642,12 @@ document.addEventListener('DOMContentLoaded', () => {
     order++;
     elements.push([{ element: contactForm, order: order },{
         finalAttrs: { opacity: 1 },
-        duration: 20,
+        duration: 10,
         delay: 0.01,
         startTrigger: "top top"}]);
     elements.push([{ element: contactSM, order: order },{
         finalAttrs: { opacity: 1 },
-        duration: 20,
+        duration: 10,
         delay: 0.01,
         startTrigger: "top top"}]);    
 

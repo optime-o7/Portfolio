@@ -4,6 +4,9 @@
     --cursive-font: "Quintessential", serif;
     --styled-font: 'Host Grotesk', sans-serif;
 }
+html {
+    scroll-behavior: smooth;
+}
 body{
     background-color: #1E1E1E;
 }
@@ -740,10 +743,6 @@ h1, h2, h3, h4, h5, h6{
     cursor: default;
 }
 
-.contact__subtitle .word[alreadyAnimated][underline]{
-    font-style: italic;
-}
-
 .social__links{
     display: flex;
     flex-direction: row;
@@ -892,8 +891,7 @@ footer{
     color: white;
 }
 
-.word[underline]{
-    display: inline;
+.word[underline], .word[underline_end]{
     background-image: linear-gradient(#FF5733, #FF5733);
     background-position: 0 100%; /* Abajo a la izquierda */
     background-repeat: no-repeat;
@@ -904,8 +902,11 @@ footer{
     background-size: 100% 0.1em;
 }
 
+.word[underline_end][alreadyAnimated]{
+    background-size: 95% 0.1em; /* Arranca con 0% de ancho */
+}
+
 .word[highlight]{
-    display: inline;
     -webkit-text-stroke-color: #FF5733;
 }
 
@@ -914,7 +915,6 @@ footer{
 }
 
 .word[clear]{
-    display: inline;
     color: transparent;
 }
 
