@@ -5,6 +5,7 @@
     --styled-font: 'Host Grotesk', sans-serif;
 }
 html {
+    font-size: clamp(14px, 1.1vw, 18px);
     scroll-behavior: smooth;
 }
 body{
@@ -67,7 +68,7 @@ h1, h2, h3, h4, h5, h6{
 
 .navbar{
     display: flex;
-    padding: 0.5cqi 2cqi;
+    padding: 0.4rem 1.6rem;
     align-items: center;
     justify-items: center;
     list-style: none;
@@ -76,17 +77,18 @@ h1, h2, h3, h4, h5, h6{
     -webkit-backdrop-filter: blur(30px) saturate(100%);
     backdrop-filter: blur(30px) saturate(100%);
     border-radius: 5rem;
-    margin: 0.5cqi auto;
+    margin: 0.4rem auto;
     position: fixed;
     top: 0;
     left: 50%;
+    gap: 1rem;
     transform: translateX(-50%);
     z-index: 1000;
 }
 
 .nav__logo img{
-    width: 3cqi;
-    height: 3cqi;
+    width: 2.4rem;
+    height: 2.4rem;
     transition: all 0.15s ease;
 }
 
@@ -98,17 +100,25 @@ h1, h2, h3, h4, h5, h6{
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 0;
+    padding: 0;
     justify-content: center;
-    padding-left: 1.5cqi;
-    gap: 1.5cqi;
+    gap: 1rem;
     list-style: none;
+    height: fit-content;
+}
+
+
+
+.nav__list li{
+    text-align: center;
 }
 
 .nav__list li a{
     text-decoration: none;
     color: #FFFFFF;
     font-weight: bold;
-    font-size: 1.2cqi;
+    font-size: 1rem;
     transition: color 0.3s ease;
 }
 
@@ -121,15 +131,15 @@ h1, h2, h3, h4, h5, h6{
 .title{
     position: relative;
     font-weight: bolder;
-    font-size: 8.5cqi;
-    letter-spacing: 0.1cqi;
+    font-size: 6.8rem;
+    letter-spacing: 0.08rem;
     color: transparent;
     -webkit-text-stroke: 0.05rem #FFFFFF;
     cursor: default;
     transition: all 0.3s ease;
     margin: 0;
     margin-top: 0;
-    margin-bottom: 0.5cqi;
+    margin-bottom: 0.4rem;
 }
 
 .title:hover{
@@ -150,7 +160,7 @@ h1, h2, h3, h4, h5, h6{
     width: 50%;
 }
 .home__title, .home__dynamic__title{
-    font-size: 2.5cqi;
+    font-size: 2rem;
     font-weight: bold;
     margin: 0 auto;
     font-family: var(--styled-font);
@@ -180,14 +190,14 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .home__description{
-    font-size: 1.75cqi;
+    font-size: 1.4rem;
     font-family: var(--text-font);
 }
 
 .home__buttons{
     display: flex;
     flex-direction: row;
-    gap: 0.75cqi;
+    gap: 0.6rem;
 }
 
 .home__buttons > a{
@@ -231,7 +241,7 @@ h1, h2, h3, h4, h5, h6{
 .about__container{
     display: flex;
     flex-direction: column;
-    padding-left: 3.5cqi;
+    padding-left: 3rem;
     padding-right: 0;
     width: 30vw;
     margin: 0 auto;
@@ -265,7 +275,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .about__title{
-    font-size: 4.75cqi;
+    font-size: 3.8rem;
     opacity: 1;
 }
 
@@ -282,12 +292,12 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .about__text{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
 }
 
 .about__text .word{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -306,14 +316,14 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .about__text--2, .projects__endtext{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
 }
 
 .about__text--2 .word, .projects__endtext .word{
     opacity: 0;
     color: transparent;
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     -webkit-text-stroke-color: #ffffff;
@@ -333,16 +343,15 @@ h1, h2, h3, h4, h5, h6{
 
 .projects__title{
     text-align: center;
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
-    font-size: 2.75cqi;
     font-family: var(--styled-font);
 }
 
 .projects__title .word{
     opacity: 0;
     color: transparent;
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     -webkit-text-stroke-color: #ffffff;
@@ -391,7 +400,7 @@ h1, h2, h3, h4, h5, h6{
 
 .project_content a{
     font-family: var(--title-font);
-    font-size: 5cqb;
+    font-size: 1rem;
     font-weight: bold;
     text-decoration: none;
     display: inline-block;
@@ -423,7 +432,7 @@ h1, h2, h3, h4, h5, h6{
 .project_content p{
     font-family: var(--styled-font);
     font-weight: lighter;
-    font-size: 1.3cqi;
+    font-size: 1rem;
     margin: auto 2vh;
 }
 /* Knowledge */
@@ -444,12 +453,12 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .knowledge__title{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
 }
 
 .knowledge__title .word{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -461,7 +470,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .knowledge__container{
-    font-size: 2.5cqi;
+    font-size: 2.2rem;
     opacity: 1;
     display: flex;
     flex-direction: row;
@@ -474,15 +483,15 @@ h1, h2, h3, h4, h5, h6{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 12.5cqi;
-    max-width: 12.5cqi;
+    min-width: 12rem;
+    max-width: 12rem;
 }
 
 .knowledge__item img{
     opacity: 0;
     display: flex;
     margin: 0 auto;
-    width: 10cqi;
+    width: 9.5rem;
     height: auto;
 }
 
@@ -509,12 +518,12 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .knowledge__tease{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
 }
 
 .knowledge__tease .word{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -545,19 +554,19 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .ai__title{
-    font-size: 3.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
     margin: 0;
 }
 
 .ai__title p{
     margin: 0;
-    margin-top: 1.5cqi;
-    margin-bottom: 1.5cqi;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .ai__title .word{
-    font-size: 3.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -580,8 +589,8 @@ h1, h2, h3, h4, h5, h6{
 .ai__container{
     display: flex;
     flex-direction: column;
-    padding-left: 3.5cqi;
-    padding-right: 3.5cqi;
+    padding-left: 3rem;
+    padding-right: 3rem;
     width: 30vw;
     height: min-content;
     margin: 0;
@@ -607,13 +616,13 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .ai__text{
-    font-size: 2.5cqi;
+    font-size: 2.2rem;
     opacity: 1;
     margin: 0;
 }
 
 .ai__text .word{
-    font-size: 2.5cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -645,19 +654,19 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .contact__hint{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     opacity: 1;
     margin: 0;
 }
 
 .contact__hint p{
     margin: 0;
-    margin-top: 1.5cqi;
-    margin-bottom: 1.5cqi;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .contact__hint .word{
-    font-size: 2.75cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -669,12 +678,12 @@ h1, h2, h3, h4, h5, h6{
 }
 
 #contact-title-container{
-    margin-top: 2cqi;
-    margin-bottom: 5cqi;
+    margin-top: 1.5rem;
+    margin-bottom: 4.5rem;
 }
 
 .contact__title{
-    font-size: 4cqi;
+    font-size: 2.2rem;
     opacity: 1;
     margin: 0;
 }
@@ -684,7 +693,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .contact__title .word{
-    font-size: 4cqi;
+    font-size: 2.2rem;
     font-family: var(--styled-font);
     display: inline-block;
     opacity: 0;
@@ -709,7 +718,7 @@ h1, h2, h3, h4, h5, h6{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 15cqi;
+    margin-right: 14.5rem;
 }
 
 #contact-text-container{
@@ -724,7 +733,7 @@ h1, h2, h3, h4, h5, h6{
 .contact__subtitle{
     font-family: var(--cursive-font);
     width: 25cqi;
-    font-size: 3cqi;
+    font-size: 2.2rem;
 }
 
 .contact__subtitle p{
@@ -732,7 +741,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .contact__subtitle .word{
-    font-size: 3cqi;
+    font-size: 2.2rem;
     font-family: var(--cursive-font);
     display: inline-block;
     opacity: 0;
@@ -747,9 +756,9 @@ h1, h2, h3, h4, h5, h6{
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1cqi;
+    gap: .5rem;
     position: relative;
-    top: 2.5cqi;
+    top: 2rem;
     width: fit-content;
     background-color: rgba(255, 255, 255, 0.025);
     padding: 1.5rem 1.5rem;
@@ -759,7 +768,7 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .social__links img{
-    width: 2cqi;
+    width: 1.5rem;
     filter: invert(75%);
     transition: all 0.15s ease;
 }
@@ -771,21 +780,21 @@ h1, h2, h3, h4, h5, h6{
 
 .contact__container{
     margin-bottom: 20px;
-    height: 27.5cqi;
+    height: 27rem;
 }
 
 .contact__form{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 30cqi;
+    width: 29.5rem;
     height: 100%;
     opacity: 0;
 }
 
 .contact__form label{
     font-family: var(--styled-font);
-    font-size: 1.25cqi;
+    font-size: 2.2rem;
     opacity: 0.3;
     width: fit-content;
 }
@@ -820,7 +829,7 @@ input:focus, textarea:focus{
 }
 
 input, textarea{
-    gap: 1cqi;
+    gap: .5rem;
     margin: 0 auto;
     opacity: 0.4;
     border: none;
@@ -838,11 +847,11 @@ input, textarea{
 }
 
 .contact__form input{
-    height: 1.5cqi;
+    height: 2rem;
 }
 
 .contact__form input[type="email"]{
-    height: 1.75cqi;
+    height: 2rem;
 }
 
 .contact__name input{
@@ -1049,8 +1058,36 @@ footer{
     .contact__form label{
         display: none;
     }
-}
 
+    .about__container{
+        width: auto;
+    }
+
+    .projects_container{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        width: 80%;
+    }
+
+    .project_content{
+        width: 100%;
+    }
+
+    .project_content a{
+        font-size: 2.5rem;
+    }
+
+    .project_content_space{
+        place-items: none;
+        width: 80%;
+    }
+
+    .ai__container{
+        width: 100%;
+    }
+}
 @keyframes show{
     from{
         opacity: 0;
